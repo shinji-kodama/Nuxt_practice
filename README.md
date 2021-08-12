@@ -9,6 +9,8 @@ myApp
 5. `docker-compose run --rm frontend npx create-nuxt-app`する
 6. `docker-compose up -d`する
 
+docker-
+
 
 -------.envの中身--------
 
