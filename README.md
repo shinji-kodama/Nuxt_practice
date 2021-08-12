@@ -9,5 +9,8 @@ myApp
 5. `docker-compose run --rm frontend npx create-nuxt-app`する
 6. `docker-compose up -d`する
 
+コンテナに入る時
+docker-compose exec frontend sh
+
 # Nuxtのオプションの意味
 
