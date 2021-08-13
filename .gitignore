@@ -119,4 +119,9 @@ dist
 .yarn/build-state.yml
 .yarn/install-state.gz
 .pnp.*
-frontend/nuxt_app/
+
+#逆に全てをignoreしていくスタイル
+!/frontend/nuxt_app/pages/
+!/frontend/nuxt_app/static/
+!/frontend/nuxt_app/store/
+
