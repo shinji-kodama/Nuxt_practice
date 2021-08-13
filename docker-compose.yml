@@ -1,0 +1,16 @@
+version: '3.8'
+services:
+  frontend:
+    env_file: .env
+    build:
+      context: ./frontend
+      args:
+        - WORKDIR=$WORKDIR
+        - FRONT_PORT=$FRONT_PORT
+        - CONTAINER_PORT=$CONTAINER_PORT
+    ports:
+      - ${CONTAINER_PORT}:${FRONT_PORT}
+    volumes:
+      - ./frontend/nuxt_app:/nuxt_app
+    working_dir: /${WORKDIR}
+    command: yarn run dev
