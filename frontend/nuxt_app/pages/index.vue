@@ -32,12 +32,12 @@
               </div>
               <div class="text-right">
                 <span class="text-xs font-semibold inline-block">
-                  30%
+                  {{ team.teamwork }}%
                 </span>
               </div>
             </div>
             <div class="overflow-hidden h-2 mx-3 mb-4 text-xs flex rounded bg-blue-200">
-              <div style="width:30%" class="shadow-none flex flex-col text-center whitespace-nowrap text-white justify-center bg-blue-500"></div>
+              <div :style="('width:' + team.teamwork + '%')" class="shadow-none flex flex-col text-center whitespace-nowrap text-white justify-center bg-blue-500"></div>
             </div>
             <div class="flex m-2 items-center justify-between">
               <div>
@@ -47,7 +47,7 @@
               </div>
               <div class="text-right">
                 <span class="text-xs font-semibold inline-block">
-                  60%
+                  {{ team.skill }}%
                 </span>
               </div>
             </div>
@@ -62,7 +62,7 @@
               </div>
               <div class="text-right">
                 <span class="text-xs font-semibold inline-block">
-                  80%
+                  {{ team.tactics }}%
                 </span>
               </div>
             </div>
