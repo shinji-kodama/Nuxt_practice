@@ -5,6 +5,9 @@ $sp: 'only screen and (max-width:769px) ';
 // 使用するカラー
 $colorDarkPink: #ca1a1a;
 $cBlack: rgb(41, 32, 32);
+$cGray : #2c3e50;
+$cPink : #ff0068;
+$cWhite: #f5f5dc;
 
 // @include flex(center, center);
 @mixin flex($justify-content: unset, $align-items: unset) {

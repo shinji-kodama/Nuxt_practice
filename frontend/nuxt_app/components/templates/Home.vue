@@ -2,14 +2,16 @@
     <div class="template">
         <div class="top organism">
             <div class="message">
-                <p>message</p>
+                <p>from Olympics</p>
+                <p>to</p>
+                <p>THE WILD</p>
             </div>
         </div>
         <div class="container">
             <div class="content organism" v-for="movie in movies" :key="movie.id">
                 <iframe width="560" height="315" :src="movie.url" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-                <p>{{ movie.climber }}</p>
-                <p>{{ movie.problem }}</p>
+                <p class="climber">{{ movie.climber }}</p>
+                <p class="problem">{{ movie.problem }}</p>
             </div>
         </div>
     </div>
@@ -69,4 +71,46 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+
+.top{
+    height: 100vh;
+    background-image: url("/image/top.jpeg");
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    .message{
+        display: flex;
+        flex-direction: column;
+        text-align: center;
+    }
+    p{
+        color: $cPink;
+        font-size: 80px;
+        line-height: 84px;
+    }
+}
+
+.container{
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    margin: 32px;
+
+    .content.organism {
+        display: flex;
+        flex-direction: column;
+        margin: 8px;
+
+        p.climber {
+            margin-top: 16px;
+            margin-bottom: 0px;
+        }
+
+        p.problem {
+            margin-top: 8px;
+        }
+    }
+}
+
 </style>
