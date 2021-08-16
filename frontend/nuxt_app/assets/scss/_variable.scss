@@ -1,0 +1,14 @@
+// メディアクエリ
+$pc: 'only screen and (min-width:769px) ';
+$sp: 'only screen and (max-width:769px) ';
+
+// 使用するカラー
+$colorDarkPink: #ca1a1a;
+$cBlack: rgb(41, 32, 32);
+
+// @include flex(center, center);
+@mixin flex($justify-content: unset, $align-items: unset) {
+  display: flex;
+  justify-content: $justify-content;
+  align-items: $align-items;
+}
