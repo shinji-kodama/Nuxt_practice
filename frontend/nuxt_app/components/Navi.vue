@@ -1,3 +1,4 @@
+
 <template>
   <div class="bg-gray-900">
     <div
@@ -6,80 +7,29 @@
       <div class="relative flex grid items-center grid-cols-2 lg:grid-cols-3">
         <ul class="flex items-center hidden space-x-8 lg:flex">
           <li>
-            <a
-              href="/"
-              aria-label="Our product"
-              title="Our product"
-              class="font-medium tracking-wide text-gray-100 transition-colors duration-200 hover:text-teal-accent-400"
-              >Product</a
+          <NuxtLink
+            to="/"
+            aria-label="Our product"
+            class="font-medium tracking-wide text-gray-100 transition-colors duration-200 hover:text-teal-accent-400"
             >
-          </li>
-          <li>
-            <a
-              href="/"
-              aria-label="Our product"
-              title="Our product"
-              class="font-medium tracking-wide text-gray-100 transition-colors duration-200 hover:text-teal-accent-400"
-              >Features</a
-            >
-          </li>
-          <li>
-            <a
-              href="/"
-              aria-label="Product pricing"
-              title="Product pricing"
-              class="font-medium tracking-wide text-gray-100 transition-colors duration-200 hover:text-teal-accent-400"
-              >Pricing</a
-            >
+            Top </NuxtLink
+          >
           </li>
         </ul>
-        <a
-          href="/"
-          aria-label="Company"
-          title="Company"
-          class="inline-flex items-center lg:mx-auto"
-        >
-          <svg
-            class="w-8 text-teal-accent-400"
-            viewBox="0 0 24 24"
-            stroke-linejoin="round"
-            stroke-width="2"
-            stroke-linecap="round"
-            stroke-miterlimit="10"
-            stroke="currentColor"
-            fill="none"
-          >
-            <rect x="3" y="1" width="7" height="12"></rect>
-            <rect x="3" y="17" width="7" height="6"></rect>
-            <rect x="14" y="1" width="7" height="6"></rect>
-            <rect x="14" y="11" width="7" height="12"></rect>
-          </svg>
+          <NuxtLink
+            to="/"
+            aria-label="Our product"
+            class="inline-flex items-center lg:mx-auto"
+            >
           <span
             class="ml-2 text-xl font-bold tracking-wide text-gray-100 uppercase"
-            >Company</span
+            >TITLE</span
           >
-        </a>
+        </NuxtLink>
         <ul class="flex items-center hidden ml-auto space-x-8 lg:flex">
-          <li>
-            <a
-              href="/"
-              aria-label="Sign in"
-              title="Sign in"
-              class="font-medium tracking-wide text-gray-100 transition-colors duration-200 hover:text-teal-accent-400"
-              >Sign in</a
-            >
-          </li>
-          <li>
-            <a
-              href="/"
-              class="inline-flex items-center justify-center h-12 px-6 font-medium tracking-wide text-white transition duration-200 rounded shadow-md bg-deep-purple-accent-400 hover:bg-deep-purple-accent-700 focus:shadow-outline focus:outline-none"
-              aria-label="Sign up"
-              title="Sign up"
-            >
-              Sign up
-            </a>
-          </li>
         </ul>
+
+
         <div class="ml-auto lg:hidden">
           <button
             aria-label="Open Menu"
@@ -106,32 +56,10 @@
             <div class="p-5 bg-white border rounded shadow-sm">
               <div class="flex items-center justify-between mb-4">
                 <div>
-                  <a
-                    href="/"
-                    aria-label="Company"
-                    title="Company"
-                    class="inline-flex items-center"
+                  <span
+                    class="ml-2 text-xl font-bold tracking-wide text-gray-800 uppercase"
+                    >Menu</span
                   >
-                    <svg
-                      class="w-8 text-deep-purple-accent-400"
-                      viewBox="0 0 24 24"
-                      stroke-linejoin="round"
-                      stroke-width="2"
-                      stroke-linecap="round"
-                      stroke-miterlimit="10"
-                      stroke="currentColor"
-                      fill="none"
-                    >
-                      <rect x="3" y="1" width="7" height="12"></rect>
-                      <rect x="3" y="17" width="7" height="6"></rect>
-                      <rect x="14" y="1" width="7" height="6"></rect>
-                      <rect x="14" y="11" width="7" height="12"></rect>
-                    </svg>
-                    <span
-                      class="ml-2 text-xl font-bold tracking-wide text-gray-800 uppercase"
-                      >Company</span
-                    >
-                  </a>
                 </div>
                 <div>
                   <button
@@ -152,50 +80,13 @@
               <nav>
                 <ul class="space-y-4">
                   <li>
-                    <a
-                      href="/"
-                      aria-label="Our product"
-                      title="Our product"
-                      class="font-medium tracking-wide text-gray-700 transition-colors duration-200 hover:text-deep-purple-accent-400"
-                      >Product</a
+                  <NuxtLink
+                    to="/"
+                    aria-label="Our product"
+                    class="font-medium tracking-wide text-gray-700 transition-colors duration-200 hover:text-deep-purple-accent-400"
                     >
-                  </li>
-                  <li>
-                    <a
-                      href="/"
-                      aria-label="Our product"
-                      title="Our product"
-                      class="font-medium tracking-wide text-gray-700 transition-colors duration-200 hover:text-deep-purple-accent-400"
-                      >Features</a
-                    >
-                  </li>
-                  <li>
-                    <a
-                      href="/"
-                      aria-label="Product pricing"
-                      title="Product pricing"
-                      class="font-medium tracking-wide text-gray-700 transition-colors duration-200 hover:text-deep-purple-accent-400"
-                      >Pricing</a
-                    >
-                  </li>
-                  <li>
-                    <a
-                      href="/"
-                      aria-label="Sign in"
-                      title="Sign in"
-                      class="font-medium tracking-wide text-gray-700 transition-colors duration-200 hover:text-deep-purple-accent-400"
-                      >Sign in</a
-                    >
-                  </li>
-                  <li>
-                    <a
-                      href="/"
-                      class="inline-flex items-center justify-center w-full h-12 px-6 font-medium tracking-wide text-white transition duration-200 rounded shadow-md bg-deep-purple-accent-400 hover:bg-deep-purple-accent-700 focus:shadow-outline focus:outline-none"
-                      aria-label="Sign up"
-                      title="Sign up"
-                    >
-                      Sign up
-                    </a>
+                    Top </NuxtLink
+                  >
                   </li>
                 </ul>
               </nav>
@@ -215,4 +106,6 @@ export default {
     };
   },
 };
+
+//Kometa UI Kitより引用
 </script>
