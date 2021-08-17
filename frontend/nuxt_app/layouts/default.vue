@@ -4,5 +4,4 @@
         <Nuxt />
         <FooterDefault />
     </div>
-
 </template>

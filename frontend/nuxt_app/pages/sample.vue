@@ -1,5 +1,6 @@
 <template>
     <div>
+        <TagButton buttonTitle="hoge" buttonValue="hogehoge" />
         <Foo />
         <nuxt-link to="/test">
             Go HOME!
