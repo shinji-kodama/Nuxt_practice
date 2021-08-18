@@ -23,7 +23,7 @@
             >
           <span
             class="ml-2 text-xl font-bold tracking-wide text-gray-100 uppercase"
-            >TITLE</span
+            >The Metropolitan Museum</span
           >
         </NuxtLink>
         <ul class="flex items-center hidden ml-auto space-x-8 lg:flex">
