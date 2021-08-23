@@ -1,7 +1,10 @@
 <template>
   <div>
+    {{ keyword }}
     <div>
       <input
+        v-model="keyword"
+        @input="sorted"
         type="text"
         class="
         focus:border-light-blue-500
@@ -23,22 +26,30 @@
     <ul v-for="team in TeamList" :key="team.id" class="mt-2">
       <li class="mt-3 ml-2">{{ team.name }}</li>
     </ul>
-    <!-- <div class="form">
-          <form @submit.prevent="add">
-            <input type="text" v-model="name" />
-            <button>Add</button>
-          </form>
-        </div> -->
   </div>
 </template>
 
 <script>
+import { mapMutations } from "vuex";
+
 export default {
+  data() {
+    return {
+      keyword: ""
+    };
+  },
   props: {
     TeamList: {
       type: Array,
       default: ""
     }
-  }
+  },
+  methods: {
+    ...mapMutations(["selectName"]),
+
+    sorted(e){
+      this.selectName(e.target.value);
+    },
+  },
 };
 </script>

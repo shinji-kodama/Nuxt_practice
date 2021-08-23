@@ -1,7 +1,7 @@
 <template>
   <div>
     <ul class="m-2 flex flex-wrap">
-      <li v-for="team in TeamList" :key="team.id" class="w-80 h-4/6 m-2 shadow rounded-2xl">
+      <li v-for="team in filterdTeams(getName)" :key="team.id" class="bg-white w-80 h-4/6 m-2 shadow rounded-2xl">
         <div class="h-2/4 shadow-sm">
           <img :src="team.img" alt="team image" class="h-full w-full object-cover rounded-2xl"/>
         </div>
@@ -72,14 +72,14 @@
             ></div>
           </div>
         </div>
-
-        <!-- <button @click="remove(team.id)">X</button> -->
       </li>
     </ul>
   </div>
 </template>
 
 <script>
+import { mapState } from "vuex";
+
 export default {
   props: {
     TeamList: {
@@ -87,6 +87,16 @@ export default {
       default: "",
     },
   },
+  computed: {
+      ...mapState(["teamName"]),
+
+      filterdTeams(){
+          return this.$store.getters.filterdTeams;
+      },
+      getName(){
+        return this.$store.state.teamName;
+      }
+  }
 
 };
 </script>
