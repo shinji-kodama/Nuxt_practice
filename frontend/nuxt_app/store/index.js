@@ -41,6 +41,7 @@ export const actions = {
 
 export const getters = {
     filterdTeams: (state) => (teamName) => {
-      return state.teams.filter((el) => !el.name.indexOf(teamName));
+      //部分一致の検索条件に対応
+      return state.teams.filter(el => el.name.indexOf(teamName) > -1);
     },
 };
