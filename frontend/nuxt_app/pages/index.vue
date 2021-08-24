@@ -34,17 +34,17 @@ export default {
   },
   created: function() {
     this.$store.dispatch("init");
-    //computedの代わりに記載
+    //storeからteamsの配列を取得してlistsに格納する。
     this.lists = this.$store.state.teams;
   },
   methods: {
-    add() {
-      this.$store.dispatch("add", this.name);
-      this.name = "";
-    },
-    remove(id) {
-      this.$store.dispatch("remove", id);
-    },
+    // add() {
+    //   this.$store.dispatch("add", this.name);
+    //   this.name = "";
+    // },
+    // remove(id) {
+    //   this.$store.dispatch("remove", id);
+    // },
     changeList() {
       this.viewMode = "list";
     },

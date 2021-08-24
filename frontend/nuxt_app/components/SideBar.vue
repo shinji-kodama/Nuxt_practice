@@ -47,6 +47,7 @@ export default {
   methods: {
     ...mapMutations(["selectName"]),
 
+    //検索フォームに入力された値をstoreに送る関数。
     sorted(e){
       this.selectName(e.target.value);
     },
