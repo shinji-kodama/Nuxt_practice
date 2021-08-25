@@ -4,7 +4,7 @@
       <li
         v-for="team in filterdTeams(getName)"
         :key="team.id"
-        class="bg-white w-80 h-4/6 m-2 shadow rounded-2xl"
+        class="bg-white w-80 h-4/6 m-2 shadow rounded-2xl" v-cloak
       >
         <NuxtLink :to="'/teams/' + team.id">
           <div class="h-2/4 shadow-sm">
@@ -113,3 +113,9 @@ export default {
   }
 };
 </script>
+
+<style>
+[v-cloak]{
+  display: none;
+}
+</style>
