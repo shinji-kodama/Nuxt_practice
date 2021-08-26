@@ -1,10 +1,11 @@
 <template>
   <div>
+    {{  }}
     <ul class="m-2 flex flex-wrap">
       <li
         v-for="team in filterdTeams(getName)"
         :key="team.id"
-        class="bg-white w-80 h-4/6 m-2 shadow rounded-2xl" v-cloak
+        class="bg-white w-80 h-4/6 m-2 shadow rounded-2xl"
       >
         <NuxtLink :to="'/teams/' + team.id">
           <div class="h-2/4 shadow-sm">
@@ -110,12 +111,19 @@ export default {
     getName() {
       return this.$store.state.teamName;
     }
+  },
+  mounted() {
+    //画面上部にローディングバーを表示
+    this.$nextTick(() => {
+      this.$nuxt.$loading.start();
+      setTimeout(() => this.$nuxt.$loading.finish(), 300);
+    });
   }
 };
 </script>
 
 <style>
-[v-cloak]{
+[v-cloak] {
   display: none;
 }
 </style>

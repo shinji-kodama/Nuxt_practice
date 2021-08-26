@@ -1,7 +1,8 @@
 import firebase from 'firebase'
 
 const config = {
-    projectId: process.env.FIREBASE_PROJECT_ID
+    projectId: process.env.FIREBASE_PROJECT_ID,
+    apiKey: process.env.FIREBASE_PROJECT_API,
 }
 
 if(!firebase.apps.length){
