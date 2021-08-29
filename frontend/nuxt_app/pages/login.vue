@@ -9,9 +9,7 @@
 </template>
 
 <script>
-import firebase from "~/plugins/firebase";
-
-// const auth = firebase.auth();
+import { auth } from "~/plugins/firebase";
 
 export default {
     data(){
@@ -23,10 +21,10 @@ export default {
     methods: {
         login(){
             // alert("Login")
-            firebase.auth().signInWithEmailAndPassword(this.mail, this.pass)
+            auth.signInWithEmailAndPassword(this.mail, this.pass)
             .then(user => {
                 console.log(user.user.uid);
-                this.$router.push("/")
+                this.$router.push("/myPage")
             })
             .catch(e => console.log(e.message))
         }

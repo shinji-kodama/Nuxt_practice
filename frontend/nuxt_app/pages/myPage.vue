@@ -1,13 +1,6 @@
 <template>
-  <div class="bg-blue-200 text-gray-700 font-sans">
-    <div v-if="isLogin">
-      <HeaderWithLogin />
-    </div>
-    <div v-else>
-      <Header />
-    </div>
-    <Nuxt />
-    <Footer />
+  <div>
+    <div>{{ isLogin }}</div>
   </div>
 </template>
 
@@ -25,7 +18,8 @@ export default {
       if (!user) {
         this.isLogin = null;
       } else {
-        this.isLogin = user.uid;
+        this.isLogin = user.displayName;
+        console.log(user);
       }
     });
   },

@@ -26,13 +26,13 @@
 <script>
 export default {
   layout: "default",
-  data: function() {
+  data() {
     return {
       // lists: [],
-      viewMode: "card"
+      viewMode: "card",
     };
   },
-  created: function() {
+  created: function () {
     this.$store.dispatch("init");
     //storeからteamsの配列を取得してlistsに格納する。
     // this.lists = this.$store.state.teams;
@@ -43,18 +43,12 @@ export default {
     },
     changeCard() {
       this.viewMode = "card";
-    }
+    },
   },
   computed: {
     teams() {
       return this.$store.state.teams;
-    }
-  }
+    },
+  },
 };
 </script>
-
-<style>
-[v-cloak]{
-  display: none;
-}
-</style>
