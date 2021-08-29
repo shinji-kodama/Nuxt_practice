@@ -21,17 +21,17 @@ export default{
         contents:[
           {
             title:"バーチュアルグループ・ツアー",
-            imgaeURL: require('../assets/img/translated-tours-1.jpg'),
+            imgaeURL: require('@/assets/img/translated-tours-1.jpg'),
             description:"世界中の美術品と文化遺産を誇るメトロポリタン美術館のコレクションを美術館ガイドとオンライン・バーチュアル・ツアー で体験してみませんか?",
           },
           {
             title:"新しい光の中で見る名作",
-            imgaeURL: require('../assets/img/skylightsproject_teaser.jpg'),
+            imgaeURL: require('@/assets/img/skylightsproject_teaser.jpg'),
             description:"現在ヨーロッパ絵画の展示室では大規模な改修工事が行われています。この工事により、作品鑑賞に最適な自然光を取り込む天窓が新しくなり、管理上の問題も解決することができます。",
           },
           {
             title:"The Metストア",
-            imgaeURL: require('../assets/img/store-promo_fifth-avenue.jpg'),
+            imgaeURL: require('@/assets/img/store-promo_fifth-avenue.jpg'),
             description:"館内の7つのギフトショップでお買い物をお楽しみ下さい。ショップでは五千年にわたる世界中の芸術から着想を得て作られた品々を取り扱っています。",
           },
         ]

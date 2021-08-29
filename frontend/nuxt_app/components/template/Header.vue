@@ -1,6 +1,6 @@
 <template>
   <div class="relative h-640px">
-    <img src="../assets/img/headerImage.png"
+    <img src="../../assets/img/headerImage.png"
         class="absolute inset-0 object-cover w-full h-full" alt=""
     />
     <div class="relative bg-gray-900 bg-opacity-75 h-full">
