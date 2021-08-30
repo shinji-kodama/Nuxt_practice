@@ -1,54 +1,14 @@
 <template>
   <layout-wrapper>
+    <layout-visual
+      title="NUXT SAMPLE SITE DEMO"
+      message="お知らせやメニューをmicroCMSを導入したDEMOサイトになります。"
+    />
     <div>
-      <div
-        class="relative pt-16 pb-32 flex content-center items-center justify-center z-10"
-        style="min-height: 75vh"
-      >
-        <div class="absolute top-0 w-full h-full bg-center bg-cover visual-home">
-          <span
-            id="blackOverlay"
-            class="w-full h-full absolute opacity-75"
-          ></span>
-        </div>
-        <div class="container relative mx-auto">
-          <div class="items-center flex flex-wrap">
-            <div class="w-full lg:w-6/12 px-4 ml-auto mr-auto text-center">
-              <div>
-                <h1 class="text-white font-semibold text-5xl text-shadow">
-                  NUXT SMAPLE SITE DEMO
-                </h1>
-                <p class="mt-4 text-lg text-white text-shadow-md">
-                  お知らせやメニューをmicroCMSを導入したDEMOサイトになります。
-                </p>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div
-          class="top-auto bottom-0 left-0 right-0 w-full absolute pointer-events-none overflow-hidden"
-          style="height: 70px; transform: translateZ(0px)"
-        >
-          <svg
-            class="absolute bottom-0 overflow-hidden"
-            xmlns="http://www.w3.org/2000/svg"
-            preserveAspectRatio="none"
-            version="1.1"
-            viewBox="0 0 2560 100"
-            x="0"
-            y="0"
-          >
-            <polygon
-              class="text-white fill-current"
-              points="2560 0 2560 100 0 100"
-            ></polygon>
-          </svg>
-        </div>
-      </div>
       <div class="w-full md:max-w-3xl mx-auto pt-20 px-6 md:px-0">
-        <h2 class="font-sans text-lg text-gray-800 text-center text-3xl mb-10">
+        <base-heading>
           MdN Cafeのおすすめメニュー
-        </h2>
+        </base-heading>
         <div class="flex flex-wrap justify-between mb-20 md:mb-0">
           <div class="md:w-56 mb-20 shadow-lg bg-gray-200">
             <div class="max-w">
@@ -79,16 +39,14 @@
           </div>
         </div>
         <div class="mb-10 mx-auto text-center">
-          <a
-            href="/menu/"
-            class="font-semibold md:text-lg xl:text-base px-4 md:px-5 xl:px-4 py-3 md:py-4 xl:py-3 leading-tight shadow-md rounded-lg bg-white hover:bg-gray-200 text-gray-800"
-          >
-            メニューの一覧
-          </a>
+          <base-button
+            name="メニューの一覧"
+            link="/menu/"
+          />
         </div>
-        <h2 class="font-sans text-lg text-gray-800 text-center text-3xl mb-10">
+        <base-heading>
           MdN Cafeのお知らせ
-        </h2>
+        </base-heading>
         <div class="mb-20">
           <div
             class="bg-teal-100 border-t-4 border-teal-500 rounded-b text-teal-900 shadow-md mb-5"
@@ -122,12 +80,10 @@
           </div>
         </div>
         <div class="mb-10 mx-auto text-center">
-          <a
-            href="/information/"
-            class="font-semibold md:text-lg xl:text-base px-4 md:px-5 xl:px-4 py-3 md:py-4 xl:py-3 leading-tight shadow-md rounded-lg bg-white hover:bg-gray-200 text-gray-800"
-          >
-            お知らせの一覧
-          </a>
+          <base-button
+            name="お知らせの一覧"
+            link="/information"
+          />
         </div>
       </div>
       
@@ -141,6 +97,6 @@
 
 <style>
 .visual-home {
-  background-image: url('~@/assets/img/visual-home.jpg');
+  background-image: url('~/assets/img/visual-home.jpg');
 }
 </style>
