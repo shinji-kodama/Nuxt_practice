@@ -23,7 +23,7 @@
         placeholder="Let's search!"
       />
     </div>
-    <ul v-for="team in TeamList" :key="team.id" class="mt-2">
+    <ul v-for="team in TeamList" :key="team.id" class="hidden md:block mt-2">
       <li class="mt-3 ml-2">{{ team.name }}</li>
     </ul>
   </div>

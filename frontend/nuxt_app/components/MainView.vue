@@ -1,11 +1,10 @@
 <template>
   <div>
-    {{  }}
     <ul class="m-2 flex flex-wrap">
       <li
         v-for="team in filterdTeams(getName)"
         :key="team.id"
-        class="bg-white w-80 h-4/6 m-2 shadow rounded-2xl"
+        class="card-width bg-white h-4/6 m-2 shadow rounded-2xl"
       >
         <NuxtLink :to="'/teams/' + team.id">
           <div class="h-2/4 shadow-sm">
@@ -122,8 +121,21 @@ export default {
 };
 </script>
 
-<style>
-[v-cloak] {
-  display: none;
+<style scoped>
+
+@media screen and ( min-width:768px ){
+
+.card-width{
+  width: 45%;
 }
+}
+
+@media screen and ( min-width:1070px ){
+
+.card-width{
+  width: 31%;
+}
+
+}
+
 </style>

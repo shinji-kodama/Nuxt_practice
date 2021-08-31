@@ -1,16 +1,16 @@
 <template>
   <div>
-    <div class="flex w-11/12 mx-auto">
-      <div class="w-64 h-screen bg-white my-20 p-4 rounded-3xl">
+    <div class="md:flex md:w-11/12 mx-auto">
+      <div class="md:w-64 md:h-screen bg-white my-3 md:my-20 p-4 rounded-3xl">
         <SideBar :TeamList="teams" />
       </div>
-      <div class="w-4/5 my-4">
-        <ul class="flex mx-8">
+      <div class="md:w-4/5 mx-auto my-4">
+        <ul class="hidden md:flex mx-8">
           <li @click="changeCard()" class="p-2 cursor-pointer">カード</li>
           <li class="p-2">/</li>
           <li @click="changeList()" class="p-2 cursor-pointer">リスト</li>
         </ul>
-        <div class="m-4 rounded-3xl">
+        <div class="md:m-4 rounded-3xl">
           <div v-if="viewMode === 'card'">
             <MainView :TeamList="teams" />
           </div>
