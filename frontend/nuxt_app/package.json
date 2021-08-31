@@ -1,5 +1,6 @@
 {
   "name": "mdn-cafe",
+  "description": "MdN Cafe は、打ち合わせやリモートワークができるちょっとした空間を提供します。",
   "version": "1.0.0",
   "private": true,
   "scripts": {
