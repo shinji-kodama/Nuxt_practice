@@ -24,7 +24,15 @@
       </div>
       <base-button name="メニューの一覧" link="/menu" />
       <base-heading>MdN Cafeのお知らせ</base-heading>
-      <layout-information-list />
+      <div class="mb-20">
+        <layout-information-list
+          v-for="(item, index) in infoItems"
+          :id="item.id"
+          :key="index"
+          :date="item.date"
+          :title="item.title"
+        />
+      </div>
       <base-button name="お知らせの一覧" link="/information" />
     </div>
   </layout-wrapper>
@@ -32,6 +40,7 @@
 
 <script>
 import axios from 'axios'
+
 export default {
   async asyncData({ $config }) {
     const menu = await axios.get(
@@ -40,14 +49,19 @@ export default {
         headers: { 'X-API-KEY': $config.apiKey },
       }
     )
+    const info = await axios.get(`${$config.apiUrl}/information?limit=3`, {
+      headers: { 'X-API-KEY': $config.apiKey },
+    })
     return {
       menuItems: menu.data.contents,
+      infoItems: info.data.contents,
     }
   },
 }
 </script>
+
 <style>
 .visual-home {
-  background-image: url('~@/assets/img/visual-home.jpg');
+  background-image: url('~/assets/img/visual-home.jpg');
 }
 </style>
