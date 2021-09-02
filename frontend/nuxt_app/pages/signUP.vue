@@ -23,27 +23,18 @@
 </template>
 
 <script>
-import { auth } from "~/plugins/firebase";
 
 export default {
   data() {
     return {
-    //   name: "",
       mail: "",
       pass: "",
     };
   },
   methods: {
-    signup() {
-      // alert("Login")
-      auth
-        .createUserWithEmailAndPassword(this.mail, this.pass)
-        .then((user) => {
-          console.log(user.user.uid);
-          this.$router.push("/nameUpdate");
-        })
-        .catch((e) => console.log(e.message));
-    },
+        signup() {
+            this.$store.dispatch('signup', {email: this.mail, password: this.pass})
+        },
   },
 };
 </script>

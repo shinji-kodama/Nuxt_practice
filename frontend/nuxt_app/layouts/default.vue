@@ -15,6 +15,7 @@
 import { auth } from "~/plugins/firebase";
 
 export default {
+  middleware: 'auth',
   data() {
     return {
       isLogin: "",

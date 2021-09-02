@@ -14,13 +14,12 @@
 </template>
 
 <script>
-import { auth } from "~/plugins/firebase";
 
 export default {
     methods: {
-    logout () {
-        this.$store.dispatch("logout")
-    },
+        logout () {
+            this.$store.dispatch("logout")
+        },
     }
 }
 </script>

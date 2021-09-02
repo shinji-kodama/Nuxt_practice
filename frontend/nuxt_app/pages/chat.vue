@@ -17,9 +17,3 @@
     <div>テキスト入力フォーム</div>
   </div>
 </template>
-
-<script>
-export default {
-  middleware: 'auth',
-}
-</script>

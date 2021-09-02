@@ -11,9 +11,6 @@
 </template>
 
 <script>
-import { auth } from "~/plugins/firebase";
-
-const user = auth.currentUser;
 
 export default {
   data() {
@@ -22,18 +19,8 @@ export default {
     };
   },
   methods: {
-    update() {
-      user
-        .updateProfile({
-          displayName: this.name,
-        })
-        .then(() => {
-          console.log("success");
-          this.$router.push("/myPage");
-        })
-        .catch((error) => {
-          console.log(error);
-        });
+    update () {
+      this.$store.dispatch("update", this.name);
     },
   },
 };

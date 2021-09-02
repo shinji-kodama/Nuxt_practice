@@ -1,10 +1,12 @@
 import { auth } from "~/plugins/firebase";
 
-export default function ({redirect}) {
-    auth.onAuthStateChanged((user) => {
-      if (!user) {
-        console.log("ログインしていません");
-        return redirect('/login');
-      }
-    });
-  };
+export default ({ store }) => {
+  auth.onAuthStateChanged(user => {
+    if (user) {
+      store.dispatch("authData", user);
+      console.log("user");
+    } else {
+      console.log("not user");
+    }
+  });
+};

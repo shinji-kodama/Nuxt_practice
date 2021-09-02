@@ -12,12 +12,12 @@ export const state = () => ({
   //検索フォームに入力された値を格納する
   teamName: "",
 
- user: {
-   uid: '',
-   email: '',
-   // ログイン状態の真偽値を追加
-   login: false,
- },
+  //firebaseからログインユーザー情報を取得
+  user: {
+    uid: "",
+    email: "",
+    name: "",
+  }
 });
 
 export const mutations = {
@@ -29,13 +29,34 @@ export const mutations = {
     console.log(state.teamName);
   },
 
-  getData (state, payload) {
-   state.user.uid = payload.uid;
-   state.user.email = payload.email;
- }
+  getData(state, payload) {
+    state.user.uid = payload.uid;
+    state.user.email = payload.email;
+    state.user.name = payload.name;
+  },
+  updateName(state, payload) {
+    state.user.name = payload.name;
+  }
 };
 
 export const actions = {
+  signup({ commit }, payload) {
+    auth
+      .createUserWithEmailAndPassword(payload.email, payload.password)
+      .then(user => {
+        console.log("登録が完了しました");
+        auth.onAuthStateChanged(user => {
+          if (user) {
+            commit("getData", {
+              uid: user.uid,
+              email: user.email
+            });
+          }
+        });
+        this.$router.push("/nameUpdate");
+      })
+      .catch(e => console.log(e.message));
+  },
   login({ commit }, payload) {
     auth
       .signInWithEmailAndPassword(payload.email, payload.password)
@@ -43,7 +64,11 @@ export const actions = {
         console.log("ログイン成功！");
         auth.onAuthStateChanged(user => {
           if (user) {
-            commit("getData", { uid: user.uid, email: user.email });
+            commit("getData", {
+              uid: user.uid,
+              email: user.email,
+              name: user.displayName
+            });
           }
         });
         this.$router.push("/myPage");
@@ -52,15 +77,48 @@ export const actions = {
         alert(error);
       });
   },
-   logout ({ context }) {
-   auth.signOut()
-     .then(()=> {
-       console.log('ログアウトしました')
-     })
-     .catch((error) => {
-       console.log(error)
-     })
- },
+  logout({ context }) {
+    auth
+      .signOut()
+      .then(() => {
+        console.log("ログアウトしました");
+      })
+      .catch(error => {
+        console.log(error);
+      });
+  },
+  update({ commit }, name) {
+    auth.currentUser
+      .updateProfile({
+        displayName: name
+      })
+      .then(() => {
+        console.log("名前を設定しました");
+        console.log(auth.currentUser);
+        auth.onAuthStateChanged(user => {
+          if (user) {
+            commit("updateName", {
+              name: user.displayName
+            });
+          }
+        });
+        this.$router.push("/myPage");
+      })
+      .catch(error => {
+        console.log(error);
+      });
+  },
+  authData({ commit }) {
+    auth.onAuthStateChanged(user => {
+      if (user) {
+        commit("getData", {
+          uid: user.uid,
+          email: user.email,
+          name: user.displayName
+        });
+      }
+    });
+  },
   init: firestoreAction(({ bindFirestoreRef }) => {
     bindFirestoreRef("teams", teamRef);
   }),
@@ -91,6 +149,6 @@ export const getters = {
   },
 
   user: state => {
-   return state.user
- }
+    return state.user;
+  }
 };
