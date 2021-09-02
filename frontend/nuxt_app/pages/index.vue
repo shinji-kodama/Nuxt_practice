@@ -28,7 +28,6 @@ export default {
   layout: "default",
   data() {
     return {
-      // lists: [],
       viewMode: "card",
     };
   },

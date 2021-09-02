@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div>{{ isLogin }}</div>
+    <div>{{ user }}</div>
   </div>
 </template>
 
@@ -13,15 +13,10 @@ export default {
       isLogin: "",
     };
   },
-  created: function () {
-    auth.onAuthStateChanged((user) => {
-      if (!user) {
-        this.isLogin = null;
-      } else {
-        this.isLogin = user.displayName;
-        console.log(user);
-      }
-    });
+  computed: {
+    user() {
+      return this.$store.getters.user;
+    },
   },
 };
 </script>
