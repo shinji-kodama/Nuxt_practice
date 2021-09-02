@@ -18,11 +18,9 @@ import { auth } from "~/plugins/firebase";
 
 export default {
     methods: {
-        logout() {
-            auth.signOut().then(() => {
-                console.log("logoutしました");
-            })
-        }
+    logout () {
+        this.$store.dispatch("logout")
+    },
     }
 }
 </script>

@@ -52,6 +52,15 @@ export const actions = {
         alert(error);
       });
   },
+   logout ({ context }) {
+   auth.signOut()
+     .then(()=> {
+       console.log('ログアウトしました')
+     })
+     .catch((error) => {
+       console.log(error)
+     })
+ },
   init: firestoreAction(({ bindFirestoreRef }) => {
     bindFirestoreRef("teams", teamRef);
   }),
