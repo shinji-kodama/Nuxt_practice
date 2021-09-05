@@ -1,6 +1,6 @@
 import { auth } from "~/plugins/firebase";
 
-export default function ({redirect}) {
+export default({ redirect }) => {
     auth.onAuthStateChanged((user) => {
       if (!user) {
         console.log("ログインしていません");

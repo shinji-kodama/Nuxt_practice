@@ -1,6 +1,7 @@
 <template>
   <div>
     <div>{{ isLogin }}</div>
+    <button><NuxtLink to="forms/registration">チーム登録</NuxtLink></button>
   </div>
 </template>
 

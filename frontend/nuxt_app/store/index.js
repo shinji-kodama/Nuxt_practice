@@ -31,13 +31,16 @@ export const actions = {
     bindFirestoreRef("teams", teamRef.where("name", "==", payload.keyword));
   }),
 
-  add: firestoreAction(name => {
+  add: firestoreAction((context, { name, level, area }) => {
     if (name.trim()) {
       teamRef.add({
         name: name,
-        created: firebase.firestore.FieldValue.serverTimestamp()
+        level: level,
+        area: area,
+        created: firebase.firestore.FieldValue.serverTimestamp(),
       });
     }
+    console.log("チーム登録完了")
   }),
 
   remove: firestoreAction((context, id) => {
