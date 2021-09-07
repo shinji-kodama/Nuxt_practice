@@ -31,9 +31,10 @@ export const actions = {
     bindFirestoreRef("teams", teamRef.where("name", "==", payload.keyword));
   }),
 
-  add: firestoreAction((context, { name, level, area }) => {
+  add: firestoreAction((context, { user_id, name, level, area }) => {
     if (name.trim()) {
       teamRef.add({
+        user_id: user_id,
         name: name,
         level: level,
         area: area,
