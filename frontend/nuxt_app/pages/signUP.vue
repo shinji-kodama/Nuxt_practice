@@ -35,7 +35,6 @@ export default {
   },
   methods: {
     signup() {
-      // alert("Login")
       auth
         .createUserWithEmailAndPassword(this.mail, this.pass)
         .then((user) => {

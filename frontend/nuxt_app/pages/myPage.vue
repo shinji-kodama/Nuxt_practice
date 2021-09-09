@@ -1,20 +1,41 @@
 <template>
   <div>
-    <div>{{ isLogin }}</div>
-    <div>{{ user_id }}</div>
+      <div>＜＜ユーザー情報＞＞</div>
+    <div>ユーザー名：{{ userInfo.loginName }}</div>
+    <button><NuxtLink to="profile">ユーザープロフィール</NuxtLink></button>
+    <div>＜＜チーム登録＞＞</div>
     <button><NuxtLink to="forms/registration">チーム登録</NuxtLink></button>
-    <div>セレクトチームID：{{selectedTeam}}</div>
-    <div>チームセレクト</div>
-    <select v-model="selectedTeam" name="teams">
-      <option v-for="team in teams" :value="team.id" :key="team.id">{{ team.name }}</option>
+    <div>＜＜チームセレクト＞＞</div>
+    <div>セレクトチームID：{{ teamInfo.selectedTeamId }}</div>
+    <select v-model="teamInfo.selectedTeamId" name="teams">
+      <option v-for="team in teams" :value="team.id" :key="team.id">
+        <div>{{ team.name }}</div>
+      </option>
     </select>
-    <ul v-for="one in oneTeam" :key="one.id">
-      <li>
-        <div>{{ one.name }}</div>
-        <button>編集</button>
-        <button>削除</button>
-      </li>
-    </ul>
+    <!-- チーム表示画面 -->
+    <template v-if="isEdited">
+      <ul v-for="one in oneTeam" :key="one.id">
+        <li>
+          <div>{{ one.name }}</div>
+          <div>{{ one.level }}</div>
+          <div>{{ one.area }}</div>
+          <button @click="edit">編集</button>
+        </li>
+      </ul>
+    </template>
+    <template v-else>
+      <ul v-for="one in oneTeam" :key="one.id">
+        <li>
+          <div><input type="text" :value="one.name" @input="nameChange" /></div>
+          <div>
+            <input type="text" :value="one.level" @input="levelChange" />
+          </div>
+          <div><input type="text" :value="one.area" @input="areaChange" /></div>
+          <button @click="update">更新</button>
+          <button @click="cancel">キャンセル</button>
+        </li>
+      </ul>
+    </template>
   </div>
 </template>
 
@@ -24,19 +45,28 @@ import { auth } from "~/plugins/firebase";
 export default {
   data() {
     return {
-      user_id: "",
-      isLogin: "",
-      selectedTeam: "",
+        userInfo: {
+            user_id: "",
+            loginName: "",
+        },
+
+      teamInfo: {
+        selectedTeamId: "",
+        name: "",
+        level: "",
+        area: "",
+      },
+
+      isEdited: true,
     };
   },
   created: function () {
     auth.onAuthStateChanged((user) => {
       if (!user) {
-        this.isLogin = null;
+        this.userInfo.loginName = null;
       } else {
-        this.isLogin = user.displayName;
-        this.user_id = user.uid;
-        console.log(user);
+        this.userInfo.loginName = user.displayName;
+        this.userInfo.user_id = user.uid;
       }
     });
     this.$store.dispatch("init");
@@ -44,13 +74,37 @@ export default {
   computed: {
     teams() {
       return this.$store.state.teams.filter(
-        (el) => el.user_id === this.user_id
+        (el) => el.user_id === this.userInfo.user_id
       );
     },
     oneTeam() {
       return this.$store.state.teams.filter(
-        (el) => el.user_id === this.user_id && el.id === this.selectedTeam
+        (el) => el.user_id === this.userInfo.user_id && el.id === this.teamInfo.selectedTeamId
       );
+    },
+  },
+  methods: {
+    edit() {
+      return this.isEdited = false;
+    },
+        cancel() {
+      return this.isEdited = true;
+    },
+    update() {
+      this.$store.dispatch("update", this.teamInfo);
+      this.isEdited = true;
+    },
+    nameChange: function (val) {
+      this.teamInfo.name = val.target.value;
+      console.log(this.teamInfo.name);
+    },
+    levelChange: function (val) {
+      this.teamInfo.level = val.target.value;
+      console.log(this.teamInfo.level);
+    },
+    areaChange: function (val) {
+      this.teamInfo.area = val.target.value;
+      console.log(this.teamInfo.area);
     },
   },
 };

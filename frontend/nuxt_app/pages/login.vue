@@ -20,7 +20,6 @@ export default {
     },
     methods: {
         login(){
-            // alert("Login")
             auth.signInWithEmailAndPassword(this.mail, this.pass)
             .then(user => {
                 console.log(user.user.uid);

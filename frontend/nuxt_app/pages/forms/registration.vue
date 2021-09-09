@@ -8,8 +8,8 @@
       <form-complate v-if="formNumber === 2" />
     </keep-alive>
 
-    <button v-if="formNumber === 0" @click="plusNum">確認画面へ</button>
-    
+    <button v-if="formNumber === 0" @click="plusNum">入力確認画面へ</button>
+
     <button v-if="formNumber === 1" @click="minusNum">戻る</button>
     <button v-if="formNumber === 1" @click="add">送信</button>
   </div>

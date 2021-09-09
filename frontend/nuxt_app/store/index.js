@@ -38,10 +38,53 @@ export const actions = {
         name: name,
         level: level,
         area: area,
-        created: firebase.firestore.FieldValue.serverTimestamp(),
+        created: firebase.firestore.FieldValue.serverTimestamp()
       });
     }
-    console.log("チーム登録完了")
+    console.log("チーム登録完了");
+  }),
+
+  update: firestoreAction((context, { selectedTeamId, name, level, area }) => {
+    console.log(selectedTeamId, name, level, area);
+    teamRef.doc(selectedTeamId).update({
+      name: name,
+      level: level,
+      area: area,
+      updated: firebase.firestore.FieldValue.serverTimestamp()
+    });
+  }),
+
+  updateUser: firestoreAction(({ context, redirect }, { loginName, email, image }) => {
+    const user = firebase.auth().currentUser;
+    // const credential = promptForCredentials();
+    console.log(loginName, email, image);
+    user.updateProfile({
+        displayName: loginName,
+        photoURL: image.name,
+      })
+      .then(() => {
+        console.log("ユーザー情報更新成功");
+      })
+      .catch(error => {
+        console.log("ユーザー情報更新エラー", error);
+      });
+      // user.reauthenticateWithCredential(credential).then(() => {
+      //   console.log("再認証成功");
+      // }).catch((error) => {
+      //   console.log("再認証失敗", error);
+      // });
+      user.updateEmail(email).then(() => {
+        console.log("email更新成功");
+      }).catch((error) => {
+        console.log("email更新失敗", error);
+        return redirect('/login');
+      });
+
+      // refの中身が保存する場所のpathになる
+      const storageRef = firebase.storage().ref(`userProfileImages/${ image.name }`);
+      storageRef.put(image);
+
+
   }),
 
   remove: firestoreAction((context, id) => {
