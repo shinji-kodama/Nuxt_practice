@@ -1,7 +1,7 @@
 <template>
   <div>
     <div v-for="team in teams" :key="team.id">
-      <img :src="team.img" alt="team image" />
+      <img :src="team.image" alt="team image" />
       <h1>{{ team.name }}</h1>
     </div>
     <button><NuxtLink to="/chat">チャット申請</NuxtLink></button>

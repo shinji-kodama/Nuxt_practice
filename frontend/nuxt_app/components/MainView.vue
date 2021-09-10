@@ -9,7 +9,7 @@
         <NuxtLink :to="'/teams/' + team.id">
           <div class="h-2/4 shadow-sm">
             <img
-              :src="team.img"
+              :src="team.image"
               alt="team image"
               class="h-full w-full object-cover rounded-2xl"
             />

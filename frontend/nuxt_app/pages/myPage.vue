@@ -16,6 +16,7 @@
     <template v-if="isEdited">
       <ul v-for="one in oneTeam" :key="one.id">
         <li>
+          <div><img :src="profileImage"></div>
           <div>{{ one.name }}</div>
           <div>{{ one.level }}</div>
           <div>{{ one.area }}</div>
@@ -26,6 +27,8 @@
     <template v-else>
       <ul v-for="one in oneTeam" :key="one.id">
         <li>
+          <img :src="profileImage" />
+          <input type="file" @change="selectImage" />
           <div><input type="text" :value="one.name" @input="nameChange" /></div>
           <div>
             <input type="text" :value="one.level" @input="levelChange" />
@@ -41,6 +44,7 @@
 
 <script>
 import { auth } from "~/plugins/firebase";
+import firebase from "~/plugins/firebase";
 
 export default {
   data() {
@@ -55,8 +59,11 @@ export default {
         name: "",
         level: "",
         area: "",
+        image: "",
       },
 
+      profileImage: "",
+      showImage: "",
       isEdited: true,
     };
   },
@@ -70,6 +77,7 @@ export default {
       }
     });
     this.$store.dispatch("init");
+
   },
   computed: {
     teams() {
@@ -78,16 +86,34 @@ export default {
       );
     },
     oneTeam() {
-      return this.$store.state.teams.filter(
+      const oneTeam =  this.$store.state.teams.filter(
         (el) => el.user_id === this.userInfo.user_id && el.id === this.teamInfo.selectedTeamId
       );
+
+      oneTeam.forEach((el) => {
+          this.teamInfo.name = el.name;
+          this.teamInfo.level = el.level;
+          this.teamInfo.area = el.area;
+          this.teamInfo.image = el.image;
+
+        const storageRef = firebase.storage().ref();
+      storageRef
+        .child(`teamProfileImages/${ el.image }`)
+        .getDownloadURL()
+        .then((url) => {
+          this.profileImage = url;
+          console.log(this.profileImage);
+        });
+      });
+
+    return oneTeam;
     },
   },
   methods: {
     edit() {
       return this.isEdited = false;
     },
-        cancel() {
+    cancel() {
       return this.isEdited = true;
     },
     update() {
@@ -105,6 +131,18 @@ export default {
     areaChange: function (val) {
       this.teamInfo.area = val.target.value;
       console.log(this.teamInfo.area);
+    },
+    selectImage(e) {
+      console.log(e.target.files[0]);
+      const file = e.target.files[0];
+      this.teamInfo.image = file;
+
+      const reader = new FileReader();
+      reader.readAsDataURL(file);
+      reader.onload = (e) => {
+        console.log(e.target.result);
+        this.profileImage = e.target.result;
+      };
     },
   },
 };

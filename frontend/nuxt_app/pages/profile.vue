@@ -2,15 +2,20 @@
   <div>
     <div>＜＜ユーザー情報＞＞</div>
     <template v-if="isEdited">
+      <div><img :src="profileImage" /></div>
       <div>ユーザー名：{{ userInfo.loginName }}</div>
       <div>メールアドレス：{{ userInfo.email }}</div>
       <button @click="edit">編集</button>
     </template>
     <template v-else>
-      <img :src="showImage">
-      <div><input type="file" @change="selectImage"></div>
-      <div><input type="text" :value="userInfo.loginName" @input="nameChange" /></div>
-      <div><input type="text" :value="userInfo.email" @input="emailChange" /></div>
+      <img :src="profileImage" />
+      <div><input type="file" @change="selectImage" /></div>
+      <div>
+        <input type="text" :value="userInfo.loginName" @input="nameChange" />
+      </div>
+      <div>
+        <input type="text" :value="userInfo.email" @input="emailChange" />
+      </div>
       <button @click="update">更新</button>
       <button @click="cancel">キャンセル</button>
     </template>
@@ -20,6 +25,7 @@
 
 <script>
 import { auth } from "~/plugins/firebase";
+import firebase from "~/plugins/firebase";
 
 export default {
   data() {
@@ -31,6 +37,7 @@ export default {
         image: "",
       },
 
+      profileImage: "",
       showImage: "",
       isEdited: true,
     };
@@ -40,11 +47,22 @@ export default {
       if (!user) {
         this.userInfo.loginName = null;
       } else {
+        this.userInfo.user_id = user.uid;
         this.userInfo.loginName = user.displayName;
         this.userInfo.email = user.email;
-        this.userInfo.user_id = user.uid;
+        this.userInfo.image = `userProfileImages/${user.photoURL}`;
       }
       console.log(user);
+
+      const storageRef = firebase.storage().ref();
+      storageRef
+        .child(this.userInfo.image)
+        .getDownloadURL()
+        .then((url) => {
+          this.profileImage = url;
+          console.log(user);
+          console.log(this.profileImage);
+        });
     });
   },
 
@@ -65,17 +83,17 @@ export default {
     emailChange: function (val) {
       this.userInfo.email = val.target.value;
     },
-            selectImage (e) {
-            console.log(e.target.files[0]);
-            const file = e.target.files[0];
-            this.userInfo.image = file;
+    selectImage(e) {
+      console.log(e.target.files[0]);
+      const file = e.target.files[0];
+      this.userInfo.image = file;
 
-            const reader = new FileReader()
-            reader.readAsDataURL(file)
-            reader.onload = (e) => {
-                this.showImage = e.target.result
-            }
-        },
+      const reader = new FileReader();
+      reader.readAsDataURL(file);
+      reader.onload = (e) => {
+        this.profileImage = e.target.result;
+      };
+    },
   },
 };
 </script>

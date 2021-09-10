@@ -36,6 +36,7 @@ export default {
         name: "",
         level: "",
         area: "",
+        image: "",
       },
     };
   },
