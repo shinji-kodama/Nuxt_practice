@@ -32,14 +32,15 @@ export const actions = {
   //   bindFirestoreRef("teams", teamRef.where("name", "==", payload.keyword));
   // }),
 
-  add: firestoreAction((context, { user_id, name, level, area, image }) => {
+  add: firestoreAction((context, { user_id, name, level, area, image, showImage }) => {
+    console.log(user_id, level, area, image);
     if (name.trim()) {
       teamRef.add({
         user_id: user_id,
         name: name,
         level: level,
         area: area,
-        image: image,
+        image: image.name,
         created: firebase.firestore.FieldValue.serverTimestamp()
       });
     }

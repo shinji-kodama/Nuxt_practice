@@ -12,7 +12,7 @@
         </ul>
         <div class="md:m-4 rounded-3xl">
           <div v-if="viewMode === 'card'">
-            <MainView :TeamList="teams" />
+            <MainView/>
           </div>
           <div v-else>
             <ListView :TeamList="teams" />
@@ -28,14 +28,12 @@ export default {
   layout: "default",
   data() {
     return {
-      // lists: [],
       viewMode: "card",
+      teamImage: "",
     };
   },
   created: function () {
     this.$store.dispatch("init");
-    //storeからteamsの配列を取得してlistsに格納する。
-    // this.lists = this.$store.state.teams;
   },
   methods: {
     changeList() {
@@ -47,7 +45,8 @@ export default {
   },
   computed: {
     teams() {
-      return this.$store.state.teams;
+      const teams = this.$store.state.teams;
+      return teams;
     },
   },
 };

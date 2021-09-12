@@ -1,10 +1,15 @@
 <template>
   <div>
-      <div>＜＜ユーザー情報＞＞</div>
+    <!-- ユーザー情報 -->
+    <div>＜＜ユーザー情報＞＞</div>
     <div>ユーザー名：{{ userInfo.loginName }}</div>
     <button><NuxtLink to="profile">ユーザープロフィール</NuxtLink></button>
+
+    <!-- チーム登録 -->
     <div>＜＜チーム登録＞＞</div>
     <button><NuxtLink to="forms/registration">チーム登録</NuxtLink></button>
+
+    <!-- チーム情報 -->
     <div>＜＜チームセレクト＞＞</div>
     <div>セレクトチームID：{{ teamInfo.selectedTeamId }}</div>
     <select v-model="teamInfo.selectedTeamId" name="teams">
@@ -12,11 +17,12 @@
         <div>{{ team.name }}</div>
       </option>
     </select>
-    <!-- チーム表示画面 -->
+    
+    <!-- チーム表示画面（表示） -->
     <template v-if="isEdited">
       <ul v-for="one in oneTeam" :key="one.id">
         <li>
-          <div><img :src="profileImage"></div>
+          <div><img :src="profileImage" /></div>
           <div>{{ one.name }}</div>
           <div>{{ one.level }}</div>
           <div>{{ one.area }}</div>
@@ -24,21 +30,22 @@
         </li>
       </ul>
     </template>
+
+    <!-- チーム表示画面（編集操作） -->
     <template v-else>
       <ul v-for="one in oneTeam" :key="one.id">
         <li>
           <img :src="profileImage" />
-          <input type="file" @change="selectImage" />
+          <div><input type="file" @change="selectImage" /></div>
           <div><input type="text" :value="one.name" @input="nameChange" /></div>
-          <div>
-            <input type="text" :value="one.level" @input="levelChange" />
-          </div>
+          <div><input type="text" :value="one.level" @input="levelChange" /></div>
           <div><input type="text" :value="one.area" @input="areaChange" /></div>
           <button @click="update">更新</button>
           <button @click="cancel">キャンセル</button>
         </li>
       </ul>
     </template>
+    
   </div>
 </template>
 
@@ -49,10 +56,10 @@ import firebase from "~/plugins/firebase";
 export default {
   data() {
     return {
-        userInfo: {
-            user_id: "",
-            loginName: "",
-        },
+      userInfo: {
+        user_id: "",
+        loginName: "",
+      },
 
       teamInfo: {
         selectedTeamId: "",
@@ -77,7 +84,6 @@ export default {
       }
     });
     this.$store.dispatch("init");
-
   },
   computed: {
     teams() {
@@ -86,35 +92,37 @@ export default {
       );
     },
     oneTeam() {
-      const oneTeam =  this.$store.state.teams.filter(
-        (el) => el.user_id === this.userInfo.user_id && el.id === this.teamInfo.selectedTeamId
+      const oneTeam = this.$store.state.teams.filter(
+        (el) =>
+          el.user_id === this.userInfo.user_id &&
+          el.id === this.teamInfo.selectedTeamId
       );
 
       oneTeam.forEach((el) => {
-          this.teamInfo.name = el.name;
-          this.teamInfo.level = el.level;
-          this.teamInfo.area = el.area;
-          this.teamInfo.image = el.image;
+        this.teamInfo.name = el.name;
+        this.teamInfo.level = el.level;
+        this.teamInfo.area = el.area;
+        this.teamInfo.image = el.image;
 
         const storageRef = firebase.storage().ref();
-      storageRef
-        .child(`teamProfileImages/${ el.image }`)
-        .getDownloadURL()
-        .then((url) => {
-          this.profileImage = url;
-          console.log(this.profileImage);
-        });
+        storageRef
+          .child(`teamProfileImages/${el.image}`)
+          .getDownloadURL()
+          .then((url) => {
+            this.profileImage = url;
+            console.log(this.profileImage);
+          });
       });
 
-    return oneTeam;
+      return oneTeam;
     },
   },
   methods: {
     edit() {
-      return this.isEdited = false;
+      return (this.isEdited = false);
     },
     cancel() {
-      return this.isEdited = true;
+      return (this.isEdited = true);
     },
     update() {
       this.$store.dispatch("update", this.teamInfo);

@@ -10,7 +10,7 @@
           <div class="h-2/4 shadow-sm">
             <img
               :src="team.image"
-              alt="team image"
+              :alt="team.image"
               class="h-full w-full object-cover rounded-2xl"
             />
           </div>
@@ -93,12 +93,6 @@
 import { mapState } from "vuex";
 
 export default {
-  props: {
-    TeamList: {
-      type: Array,
-      default: ""
-    }
-  },
   computed: {
     ...mapState(["teamName"]),
 
@@ -109,7 +103,7 @@ export default {
     //storeから検索フォームで入力された値を取得。
     getName() {
       return this.$store.state.teamName;
-    }
+    },
   },
   mounted() {
     //画面上部にローディングバーを表示
