@@ -67,7 +67,7 @@
                 <div v-for="(tag, index) in movie.tag"
                   :key="index"
                 >
-                  <a href="">{{ tag.name }}</a>
+                  <a :href="'/tag/' + tag.id + '/'">{{ tag.name }}</a>
                 </div>
               </div>
             </div>

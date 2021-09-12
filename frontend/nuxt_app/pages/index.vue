@@ -76,6 +76,7 @@
             :title="gallery.title"
             :url="gallery.url"
             :id="gallery.id"
+            :pictureNumber=3
           />
         </div>
     </div>

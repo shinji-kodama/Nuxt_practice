@@ -4,7 +4,8 @@
           <div
             class="w-full md:flex mx-auto px-6 md:px-0 flex justify-between items-center h-16"
           >
-            <i class="las la-search text-cBlack text-2xl la-flip-horizontal"></i>
+            <!-- <NuxtLink to="/search"><i class="las la-search text-cBlack text-2xl la-flip-horizontal"></i></NuxtLink> -->
+            <a href="/search"><i class="las la-search text-cBlack text-2xl la-flip-horizontal"></i></a>
             <h1>
               <!-- <NuxtLink to="/" class="text-cBlack text-lg font-bold leading-relaxed inline-block mr-4 py-2">
                 On the Rock
