@@ -1,15 +1,13 @@
 <template>
   <div class="flex-shrink-0 w-40 sm:w-47 mr-3">
-    <!-- <NuxtLink :to="'/movie/' + id + '/'"> -->
-    <a :href="'/movie/' + id + '/'">
+    <NuxtLink :to="'/movie/' + id + '/'">
         <div class="w-full">
           <img class="max-w-full" :src="`https://i.ytimg.com/vi/${url}/${pictureNumber}.jpg`" :alt="title">
         </div>
       <div>
         <h2>{{ title }}</h2>
       </div>
-    </a>
-    <!-- </NuxtLink> -->
+    </NuxtLink>
   </div>
 </template>
 

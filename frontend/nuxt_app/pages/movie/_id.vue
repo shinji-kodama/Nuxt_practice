@@ -2,7 +2,7 @@
   <layout-wrapper>
     <layout-tab />
       <div class="video">
-          <iframe width="100%" height="100%" :src="`https://www.youtube.com/embed/${movie.url}`" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+        <iframe width="100%" height="100%" :src="`https://www.youtube.com/embed/${movie.url}`" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
       </div>
       <div class="flex flex-col bg-cWhite">
         <div class="flex flex-col xl:px-10 xl:pt-2">
@@ -12,9 +12,9 @@
               <div>
                 <h1>{{ movie.title }}</h1>
                 <div>
-                  <a href="">{{ movie.area.name }}</a>
+                  <NuxtLink to="/">{{ movie.area.name }}</NuxtLink>
                   ,
-                  <a href="">{{ movie.country.name }}</a>
+                  <NuxtLink to="/">{{ movie.country.name }}</NuxtLink>
                 </div>
               </div>
             </div>
@@ -28,7 +28,7 @@
                 <h2>Climber</h2>
               </div>
               <div>
-                <a href="">{{ movie.climber[0].name }}</a>
+                <NuxtLink to="/">{{ movie.climber[0].name }}</NuxtLink>
               </div>
             </div>
 
@@ -37,7 +37,7 @@
                 <h2>Editor</h2>
               </div>
               <div>
-                <a href="">{{ movie.editor[0].name }}</a>
+                <NuxtLink to="/">{{ movie.editor[0].name }}</NuxtLink>
               </div>
             </div>
 
@@ -46,7 +46,7 @@
                 <h2>Problem</h2>
               </div>
               <div>
-                <a href="">{{ movie.problem[0].name }}({{ movie.problem[0].grade }})</a>
+                <NuxtLink to="/">{{ movie.problem[0].name }}({{ movie.problem[0].grade }})</NuxtLink>
               </div>
             </div>
 
@@ -55,7 +55,7 @@
                 <h2>Year</h2>
               </div>
               <div>
-                <a href="">{{ movie.year }}</a>
+                <NuxtLink to="/">{{ movie.year }}</NuxtLink>
               </div>
             </div>
 
@@ -67,7 +67,8 @@
                 <div v-for="(tag, index) in movie.tag"
                   :key="index"
                 >
-                  <a :href="'/tag/' + tag.id + '/'">{{ tag.name }}</a>
+                  <NuxtLink :to="'/tag/' + tag.id + '/'">{{ tag.name }}</NuxtLink>
+                  <!-- <a :href="'/tag/' + tag.id + '/'">{{ tag.name }}</a> -->
                 </div>
               </div>
             </div>
@@ -87,18 +88,15 @@
 
 <script>
 
-import axios from 'axios'
 export default {
-  async asyncData({ $config, params, error }) {
+
+  async asyncData({ $microcms, params, error }) {
     try {
-      const { data } = await axios.get(
-        `${$config.apiUrl}/movie/${params.id}`,
-        {
-          headers: { 'X-API-KEY': $config.apiKey },
-        }
-      )
+      const movie = await $microcms.get({
+        endpoint: `movie/${params.id}`
+      })
       return {
-        movie: data,
+        movie: movie,
       }
     } catch (err) {
       error({

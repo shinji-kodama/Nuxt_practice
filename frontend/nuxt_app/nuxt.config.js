@@ -1,4 +1,4 @@
-const { API_KEY, API_URL } = process.env
+const { API_KEY, SERVICE_DOMAIN } = process.env
 
 export default {
   // Target: https://go.nuxtjs.dev/config-target
@@ -38,7 +38,16 @@ export default {
   buildModules: [
     // https://go.nuxtjs.dev/tailwindcss
     '@nuxtjs/tailwindcss',
+    'nuxt-microcms-module'
   ],
+
+  microcms: {
+    options: {
+      serviceDomain: process.env.SERVICE_DOMAIN,
+      apiKey: process.env.API_KEY,
+    },
+    mode: process.env.NODE_ENV === 'production' ? 'server' : 'all',
+  },
 
   // Modules: https://go.nuxtjs.dev/config-modules
   modules: [
@@ -52,10 +61,10 @@ export default {
   // Build Configuration: https://go.nuxtjs.dev/config-build
   build: {
   },
-  publicRuntimeConfig: {
-    apiUrl: API_URL
-  },
-  privateRuntimeConfig: {
-    apiKey: API_KEY
-  },
+  // publicRuntimeConfig: {
+  //   apiUrl: API_URL
+  // },
+  // privateRuntimeConfig: {
+  //   apiKey: API_KEY
+  // },
 }

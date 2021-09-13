@@ -33,6 +33,7 @@
     <div class="bg-cWhite py-5">
       <base-heading>Latest videos</base-heading>
         <div class="overflow-x-scroll scrollbar-hide flex ml-3">
+          <!-- {{ movies }} -->
           <base-card 
             v-for="(movie, index) in movies"
             :key='index'
@@ -85,30 +86,29 @@
 </template>
 
 <script>
-import axios from 'axios'
 export default {
 
-  async asyncData({ $config }) {
+  async asyncData({ $microcms }) {
+    const movies = await $microcms.get({
+      endpoint: 'movie',
+      queries: { limit: 10 },
+    });
 
-    console.log($config.apiKey)
+    const features = await $microcms.get({
+      endpoint: 'movie',
+      queries: { limit: 10, filters: 'feature[equals]true' },
+    });
 
-    const movies = await axios.get(`${$config.apiUrl}/movie`, {
-      headers: { 'X-API-KEY': $config.apiKey },
-    })
+    const garallies = await $microcms.get({
+      endpoint: 'movie',
+      queries: { limit: 12, filters: 'garally[equals]true' },
+    });
 
-    const features  = await axios.get(`${$config.apiUrl}/movie?filters=feature[equals]true`, {
-      headers: { 'X-API-KEY': $config.apiKey },
-    })
-
-    const garallies  = await axios.get(`${$config.apiUrl}/movie?filters=garally[equals]true`, {
-      headers: { 'X-API-KEY': $config.apiKey },
-    })
-
-    return {
-      movies: movies.data.contents,
-      features: features.data.contents,
-      garallies: garallies.data.contents,
+    return{
+      movies: movies.contents,
+      features: features.contents,
+      garallies: garallies.contents
     }
-  },
+  }
 }
 </script>

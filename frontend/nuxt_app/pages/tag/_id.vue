@@ -16,22 +16,23 @@
 
 <script>
 
-import axios from 'axios'
 export default {
-  async asyncData({ $config, params, error }) {
+  async asyncData({ $microcms, params, error }) {
     try {
-      const { data } = await axios.get(
-        `${$config.apiUrl}/movie?filters=tag[contains]${params.id}`,{
-          headers: { 'X-API-KEY': $config.apiKey },
+
+      const movies = await $microcms.get({
+        endpoint: 'movie',
+        queries: { filters: `tag[contains]${params.id}` },
       })
-      const tag = await axios.get(
-        // `${$config.apiUrl}/tag?filters=id[equals]${params.id}`,{
-        `${$config.apiUrl}/tag?filters=id[equals]${params.id}`,{
-          headers: { 'X-API-KEY': $config.apiKey },
+
+      const tag = await $microcms.get({
+        endpoint: 'tag',
+        queries: { filters: `id[equals]${params.id}` },
       })
+
       return {
-        movies: data.contents,
-        tag: tag.data.contents
+        movies: movies.contents,
+        tag: tag.contents
       }
     } catch (err) {
       error({

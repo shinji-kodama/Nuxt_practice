@@ -4,18 +4,11 @@
           <div
             class="w-full md:flex mx-auto px-6 md:px-0 flex justify-between items-center h-16"
           >
-            <!-- <NuxtLink to="/search"><i class="las la-search text-cBlack text-2xl la-flip-horizontal"></i></NuxtLink> -->
-            <a href="/search"><i class="las la-search text-cBlack text-2xl la-flip-horizontal"></i></a>
+            <NuxtLink to="/search"><i class="las la-search text-cBlack text-2xl la-flip-horizontal"></i></NuxtLink>
             <h1>
-              <!-- <NuxtLink to="/" class="text-cBlack text-lg font-bold leading-relaxed inline-block mr-4 py-2">
+              <NuxtLink to="/" class="text-cBlack text-lg font-bold leading-relaxed inline-block mr-4 py-2">
                 On the Rock
-              </NuxtLink> -->
-              <a
-                class="text-cBlack text-lg font-bold leading-relaxed inline-block mr-4 py-2"
-                href="/"
-              >
-                On the Rock
-              </a>
+              </NuxtLink>
             </h1>
             <div class="text-cBlack md:hidden">
               <button class="focus:outline-none" @click="isOpen = !isOpen">
