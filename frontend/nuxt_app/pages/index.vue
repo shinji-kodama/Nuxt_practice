@@ -89,6 +89,9 @@ import axios from 'axios'
 export default {
 
   async asyncData({ $config }) {
+
+    console.log($config.apiKey)
+
     const movies = await axios.get(`${$config.apiUrl}/movie`, {
       headers: { 'X-API-KEY': $config.apiKey },
     })
