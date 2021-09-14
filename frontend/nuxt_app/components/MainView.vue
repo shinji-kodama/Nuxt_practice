@@ -4,10 +4,10 @@
       <li
         v-for="team in filterdTeams(getName)"
         :key="team.id"
-        class="card-width bg-white h-4/6 m-2 shadow rounded-2xl"
+        class="card-width bg-white h-200px m-2 shadow rounded-2xl"
       >
         <NuxtLink :to="'/teams/' + team.id">
-          <div class="h-2/4 shadow-sm">
+          <div class="h-2/5 shadow-sm">
             <img
               :src="team.image"
               :alt="team.image"
@@ -90,12 +90,8 @@
 </template>
 
 <script>
-import { mapState } from "vuex";
-
 export default {
   computed: {
-    ...mapState(["teamName"]),
-
     //gettersを呼び出し。
     filterdTeams() {
       return this.$store.getters.filterdTeams;
@@ -111,11 +107,18 @@ export default {
       this.$nuxt.$loading.start();
       setTimeout(() => this.$nuxt.$loading.finish(), 300);
     });
-  }
+  },
 };
 </script>
 
 <style scoped>
+
+@media screen and ( min-width:1px ){
+
+.card-width{
+  width: 45%;
+}
+}
 
 @media screen and ( min-width:768px ){
 

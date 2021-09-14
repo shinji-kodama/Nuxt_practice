@@ -32,47 +32,80 @@ export const actions = {
   //   bindFirestoreRef("teams", teamRef.where("name", "==", payload.keyword));
   // }),
 
-  add: firestoreAction((context, { user_id, name, level, area, image, showImage }) => {
-    console.log(user_id, level, area, image);
-    if (name.trim()) {
-      teamRef.add({
-        user_id: user_id,
-        name: name,
-        level: level,
-        area: area,
-        image: image.name,
-        created: firebase.firestore.FieldValue.serverTimestamp()
-      });
-    }
-    console.log("チーム登録完了");
-  }),
-
-  update: firestoreAction(
-    (context, { selectedTeamId, name, level, area, image }) => {
-      console.log(selectedTeamId, name, level, area, image);
-      teamRef
-        .doc(selectedTeamId)
-        .update({
-          name: name,
-          level: level,
-          area: area,
-          image: image.name,
-          updated: firebase.firestore.FieldValue.serverTimestamp()
-        })
-        .then(() => {
-          console.log("チーム情報更新成功");
-        })
-        .catch(error => {
-          console.log("チーム情報更新エラー", error);
-        });
+  add: firestoreAction(
+    (context, { user_id, name, level, area, image, showImage }) => {
+      console.log(user_id, level, area, image);
 
       // refの中身が保存する場所のpathになる
       const storageRef = firebase
         .storage()
         .ref(`teamProfileImages/${image.name}`);
-      storageRef.put(image);
+      const uploadTask = storageRef.put(image);
+
+      uploadTask.on(
+        firebase.storage.TaskEvent.STATE_CHANGED,
+        null,
+        error => {
+          console.log(error);
+        },
+        () => {
+          storageRef.getDownloadURL().then(url => {
+            console.log(url);
+            if (name.trim()) {
+              teamRef.add({
+                user_id: user_id,
+                name: name,
+                level: level,
+                area: area,
+                image: url,
+                created: firebase.firestore.FieldValue.serverTimestamp()
+              });
+            }
+          });
+        }
+      );
     }
   ),
+
+  update: firestoreAction(
+    (context, { selectedTeamId, name, level, area, image }) => {
+      console.log(selectedTeamId, name, level, area, image);
+      // refの中身が保存する場所のpathになる
+      const storageRef = firebase
+        .storage()
+        .ref(`teamProfileImages/${image.name}`);
+      const uploadTask = storageRef.put(image);
+
+      uploadTask.on(
+        firebase.storage.TaskEvent.STATE_CHANGED,
+        null,
+        error => {
+          console.log(error);
+        },
+        () => {
+          storageRef.getDownloadURL().then(url => {
+            console.log(url);
+            if (name.trim()) {
+                teamRef
+                  .doc(selectedTeamId)
+                  .update({
+                    name: name,
+                    level: level,
+                    area: area,
+                    image: url,
+                    updated: firebase.firestore.FieldValue.serverTimestamp()
+                  })
+                  .then(() => {
+                    console.log("チーム情報更新成功");
+                  })
+                  .catch(error => {
+                    console.log("チーム情報更新エラー", error);
+                  });
+            }
+          });
+        }
+      );
+    }),
 
   updateUser: firestoreAction(
     ({ context, redirect }, { loginName, email, image }) => {

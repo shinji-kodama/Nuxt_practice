@@ -1,5 +1,7 @@
 <template>
   <div>
+
+    <!-- マイページ表示 -->
     <div>＜＜ユーザー情報＞＞</div>
     <template v-if="isEdited">
       <div><img :src="profileImage" /></div>
@@ -7,17 +9,28 @@
       <div>メールアドレス：{{ userInfo.email }}</div>
       <button @click="edit">編集</button>
     </template>
+
+    <!-- 編集画面 -->
     <template v-else>
       <img :src="profileImage" />
       <div><input type="file" @change="selectImage" /></div>
-      <div>
-        <input type="text" :value="userInfo.loginName" @input="nameChange" />
-      </div>
-      <div>
-        <input type="text" :value="userInfo.email" @input="emailChange" />
-      </div>
-      <button @click="update">更新</button>
+
+<ValidationObserver v-slot="{ invalid }">
+    <ValidationProvider name="チーム名" rules="required" v-slot="{errors}">
+      <div><input type="text" v-model="userInfo.loginName" /></div>
+      <span>{{ errors[0] }}</span>
+    </ValidationProvider>
+
+    <ValidationProvider name="レベル" rules="required" v-slot="{errors}">
+      <div><input type="text" v-model="userInfo.email" /></div>
+      <span>{{ errors[0] }}</span>
+    </ValidationProvider>
+
+
+      <button @click="update" :disabled="invalid">更新</button>
       <button @click="cancel">キャンセル</button>
+</ValidationObserver>
+
     </template>
     <button><NuxtLink to="myPage">マイページ</NuxtLink></button>
   </div>
@@ -27,7 +40,23 @@
 import { auth } from "~/plugins/firebase";
 import firebase from "~/plugins/firebase";
 
+import { ValidationObserver } from "vee-validate";
+import { ValidationProvider } from "vee-validate";
+
+//バリデーションルールをここで定義
+import { extend } from "vee-validate";
+import { required } from "vee-validate/dist/rules";
+
+extend("required", {
+  ...required,
+  message: "必須入力項目です"
+});
+
 export default {
+  components: {
+    ValidationObserver,
+    ValidationProvider,
+  },
   data() {
     return {
       userInfo: {
@@ -76,12 +105,6 @@ export default {
     update() {
       this.$store.dispatch("updateUser", this.userInfo);
       this.isEdited = true;
-    },
-    nameChange: function (val) {
-      this.userInfo.loginName = val.target.value;
-    },
-    emailChange: function (val) {
-      this.userInfo.email = val.target.value;
     },
     selectImage(e) {
       console.log(e.target.files[0]);

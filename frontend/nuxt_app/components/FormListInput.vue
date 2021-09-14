@@ -79,6 +79,7 @@ export default {
       const reader = new FileReader();
       reader.readAsDataURL(file);
       reader.onload = e => {
+        console.log(e.target.result);
         this.teamInfo.showImage = e.target.result;
       };
     }

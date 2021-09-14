@@ -1,5 +1,5 @@
 <template>
-  <div class="bg-blue-200 text-gray-700 font-sans">
+  <div class="bg-blue-200 text-gray-700 font-sans text-sm">
     <div v-if="isLogin">
       <HeaderWithLogin />
     </div>

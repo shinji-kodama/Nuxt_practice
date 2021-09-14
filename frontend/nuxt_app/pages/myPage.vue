@@ -22,7 +22,7 @@
     <template v-if="isEdited">
       <ul v-for="one in oneTeam" :key="one.id">
         <li>
-          <div><img :src="profileImage" /></div>
+          <div><img :src="teamInfo.image" /></div>
           <div>{{ one.name }}</div>
           <div>{{ one.level }}</div>
           <div>{{ one.area }}</div>
@@ -35,13 +35,28 @@
     <template v-else>
       <ul v-for="one in oneTeam" :key="one.id">
         <li>
-          <img :src="profileImage" />
+          <img :src="profileImage === '' ? teamInfo.image : profileImage" />
           <div><input type="file" @change="selectImage" /></div>
-          <div><input type="text" :value="one.name" @input="nameChange" /></div>
-          <div><input type="text" :value="one.level" @input="levelChange" /></div>
-          <div><input type="text" :value="one.area" @input="areaChange" /></div>
-          <button @click="update">更新</button>
+
+      <ValidationObserver v-slot="{ invalid }">
+          <ValidationProvider name="チーム名" rules="required" v-slot="{errors}">
+          <div><input type="text" v-model="teamInfo.name" /></div>
+          <span>{{ errors[0] }}</span>
+          </ValidationProvider>
+
+          <ValidationProvider name="レベル" rules="required" v-slot="{errors}">
+          <div><input type="text" v-model="teamInfo.level" /></div>
+          <span>{{ errors[0] }}</span>
+          </ValidationProvider>
+
+          <ValidationProvider name="エリア" rules="required" v-slot="{errors}">
+          <div><input type="text" v-model="teamInfo.area" /></div>
+          <span>{{ errors[0] }}</span>
+          </ValidationProvider>
+
+          <button @click="update" :disabled="invalid">更新</button>
           <button @click="cancel">キャンセル</button>
+      </ValidationObserver>
         </li>
       </ul>
     </template>
@@ -53,7 +68,23 @@
 import { auth } from "~/plugins/firebase";
 import firebase from "~/plugins/firebase";
 
+import { ValidationObserver } from "vee-validate";
+import { ValidationProvider } from "vee-validate";
+
+//バリデーションルールをここで定義
+import { extend } from "vee-validate";
+import { required } from "vee-validate/dist/rules";
+
+extend("required", {
+  ...required,
+  message: "必須入力項目です"
+});
+
 export default {
+  components: {
+    ValidationObserver,
+    ValidationProvider,
+  },
   data() {
     return {
       userInfo: {
@@ -70,7 +101,7 @@ export default {
       },
 
       profileImage: "",
-      showImage: "",
+      updatedFile: "",
       isEdited: true,
     };
   },
@@ -103,15 +134,6 @@ export default {
         this.teamInfo.level = el.level;
         this.teamInfo.area = el.area;
         this.teamInfo.image = el.image;
-
-        const storageRef = firebase.storage().ref();
-        storageRef
-          .child(`teamProfileImages/${el.image}`)
-          .getDownloadURL()
-          .then((url) => {
-            this.profileImage = url;
-            console.log(this.profileImage);
-          });
       });
 
       return oneTeam;
@@ -125,25 +147,14 @@ export default {
       return (this.isEdited = true);
     },
     update() {
+      this.teamInfo.image = this.updatedFile === "" ? this.teamInfo.image : this.updatedFile;
       this.$store.dispatch("update", this.teamInfo);
       this.isEdited = true;
-    },
-    nameChange: function (val) {
-      this.teamInfo.name = val.target.value;
-      console.log(this.teamInfo.name);
-    },
-    levelChange: function (val) {
-      this.teamInfo.level = val.target.value;
-      console.log(this.teamInfo.level);
-    },
-    areaChange: function (val) {
-      this.teamInfo.area = val.target.value;
-      console.log(this.teamInfo.area);
     },
     selectImage(e) {
       console.log(e.target.files[0]);
       const file = e.target.files[0];
-      this.teamInfo.image = file;
+      this.updatedFile = file;
 
       const reader = new FileReader();
       reader.readAsDataURL(file);
