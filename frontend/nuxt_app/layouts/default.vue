@@ -1,14 +1,14 @@
 <template>
-  <div class="bg-blue-200 text-gray-700 font-sans text-sm">
-    <div v-if="isLogin">
-      <HeaderWithLogin />
+  <div class="bg-gray-200 text-gray-700 font-sans text-sm">
+      <div v-if="isLogin">
+        <HeaderWithLogin />
+      </div>
+      <div v-else>
+        <Header />
+      </div>
+      <Nuxt />
+      <Footer />
     </div>
-    <div v-else>
-      <Header />
-    </div>
-    <Nuxt />
-    <Footer />
-  </div>
 </template>
 
 <script>

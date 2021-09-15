@@ -1,6 +1,5 @@
 <template>
   <div>
-    {{ keyword }}
     <div>
       <input
         v-model="keyword"
@@ -11,7 +10,7 @@
         focus:ring-1
         focus:ring-light-blue-500
         focus:outline-none
-        w-11/12
+        w-full
         text-sm
         text-black
         placeholder-gray-500
@@ -19,8 +18,8 @@
         border-gray-200
         rounded-md
         py-2 pl-4"
-        aria-label="Let's search!"
-        placeholder="Let's search!"
+        aria-label="Let's search other teams!"
+        placeholder="さあ、試合相手を見つけよう！"
       />
     </div>
     <ul v-for="team in TeamList" :key="team.id" class="hidden md:block mt-2">

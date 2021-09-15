@@ -1,16 +1,24 @@
 <template>
   <div>
-    <div class="md:flex md:w-11/12 mx-auto">
-      <div class="md:w-64 md:h-screen bg-white my-3 md:my-20 p-4 rounded-3xl">
+      <div class="md:w-64 md:h-screen mx-2  my-3 md:my-20  rounded-3xl">
         <SideBar :TeamList="teams" />
       </div>
-      <div class="md:w-4/5 mx-auto my-4">
-        <ul class="hidden md:flex mx-8">
+    <div class="bg-gray-200 relative backdrop-opacity-50">
+      <img src="/topview.png" class="bg-gray-200 backdrop-opacity-50">
+      <div class="absolute inset-12 text-2xl">
+        <span class=" text-white">もっと</span><br>
+        <span class="bg-black text-white">わくわくする日常を</span><br>
+        <span class="text-xs text-white">we need football more.</span>
+      </div>
+    <div class="md:flex md:w-11/12 mx-auto">
+    </div>
+      <div class="md:w-4/5 mx-auto">
+        <ul class="hidden md:flex md:mx-8">
           <li @click="changeCard()" class="p-2 cursor-pointer">カード</li>
           <li class="p-2">/</li>
           <li @click="changeList()" class="p-2 cursor-pointer">リスト</li>
         </ul>
-        <div class="md:m-4 rounded-3xl">
+        <div class="rounded-3xl md:m-4">
           <div v-if="viewMode === 'card'">
             <MainView/>
           </div>

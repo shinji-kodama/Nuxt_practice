@@ -1,26 +1,33 @@
 <template>
   <div>
-    <ul class="m-2 flex flex-wrap">
+    <!-- メイン画面全体の枠 -->
+    <ul class="flex flex-wrap">
+
+      <!-- メイン画面カード -->
       <li
         v-for="team in filterdTeams(getName)"
         :key="team.id"
-        class="card-width bg-white h-200px m-2 shadow rounded-2xl"
+        class="card-width h-1/2 bg-white m-2 shadow rounded-lg"
       >
+
+      <!-- 画像 -->
         <NuxtLink :to="'/teams/' + team.id">
           <div class="h-2/5 shadow-sm">
             <img
               :src="team.image"
               :alt="team.image"
-              class="h-full w-full object-cover rounded-2xl"
+              class="h-full w-full object-cover rounded-t-lg"
             />
           </div>
-          <p class="px-2 py-4 overflow-hidden">{{ team.name }}</p>
-          <div class="relative pt-1">
+
+          <!-- チーム名 -->
+          <p class="px-1 py-2 overflow-hidden">{{ team.name }}</p>
+
+          <!-- パラメーター -->
+          <div class="hidden relative pt-1">
             <div class="flex m-2 items-center justify-between">
               <div>
-                <span
-                  class="text-xs font-semibold inline-block py-1 px-2 uppercase rounded-full bg-blue-200"
-                >
+                <span class="text-xs font-semibold inline-block py-1 px-2 uppercase rounded-full bg-blue-200">
                   チームワーク
                 </span>
               </div>
@@ -84,6 +91,7 @@
             </div>
           </div>
         </NuxtLink>
+
       </li>
     </ul>
   </div>
