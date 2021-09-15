@@ -15,13 +15,13 @@
       <img :src="profileImage" />
       <div><input type="file" @change="selectImage" /></div>
 
-<ValidationObserver v-slot="{ invalid }">
-    <ValidationProvider name="チーム名" rules="required" v-slot="{errors}">
+  <ValidationObserver v-slot="{ invalid }">
+    <ValidationProvider name="ユーザー名" rules="required" v-slot="{errors}">
       <div><input type="text" v-model="userInfo.loginName" /></div>
       <span>{{ errors[0] }}</span>
     </ValidationProvider>
 
-    <ValidationProvider name="レベル" rules="required" v-slot="{errors}">
+    <ValidationProvider name="メールアドレス" rules="required" v-slot="{errors}">
       <div><input type="text" v-model="userInfo.email" /></div>
       <span>{{ errors[0] }}</span>
     </ValidationProvider>
@@ -29,7 +29,7 @@
 
       <button @click="update" :disabled="invalid">更新</button>
       <button @click="cancel">キャンセル</button>
-</ValidationObserver>
+  </ValidationObserver>
 
     </template>
     <button><NuxtLink to="myPage">マイページ</NuxtLink></button>
@@ -79,13 +79,13 @@ export default {
         this.userInfo.user_id = user.uid;
         this.userInfo.loginName = user.displayName;
         this.userInfo.email = user.email;
-        this.userInfo.image = `userProfileImages/${user.photoURL}`;
+        this.profileImage = `userProfileImages/${user.photoURL}`;
       }
       console.log(user);
 
       const storageRef = firebase.storage().ref();
       storageRef
-        .child(this.userInfo.image)
+        .child(this.profileImage)
         .getDownloadURL()
         .then((url) => {
           this.profileImage = url;

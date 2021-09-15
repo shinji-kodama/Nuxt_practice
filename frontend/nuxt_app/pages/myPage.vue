@@ -22,7 +22,7 @@
     <template v-if="isEdited">
       <ul v-for="one in oneTeam" :key="one.id">
         <li>
-          <div><img :src="teamInfo.image" /></div>
+          <div><img :src="showImage" /></div>
           <div>{{ one.name }}</div>
           <div>{{ one.level }}</div>
           <div>{{ one.area }}</div>
@@ -35,7 +35,7 @@
     <template v-else>
       <ul v-for="one in oneTeam" :key="one.id">
         <li>
-          <img :src="profileImage === '' ? teamInfo.image : profileImage" />
+          <img :src="profileImage === '' ? showImage : profileImage" />
           <div><input type="file" @change="selectImage" /></div>
 
       <ValidationObserver v-slot="{ invalid }">
@@ -102,6 +102,7 @@ export default {
 
       profileImage: "",
       updatedFile: "",
+      showImage: "",
       isEdited: true,
     };
   },
@@ -133,7 +134,7 @@ export default {
         this.teamInfo.name = el.name;
         this.teamInfo.level = el.level;
         this.teamInfo.area = el.area;
-        this.teamInfo.image = el.image;
+        this.showImage = el.image;
       });
 
       return oneTeam;

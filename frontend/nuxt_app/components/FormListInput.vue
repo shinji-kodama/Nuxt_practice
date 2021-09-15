@@ -5,7 +5,7 @@
       <img :src="teamInfo.showImage" />
       <input type="file" @change="selectImage" />
 <br>
-      <ValidationProvider name="チーム名" rules="required" v-slot="v">
+      <ValidationProvider name="チーム名" rules="required|blank" v-slot="v">
         <label for="チーム名">チーム名</label>
         <input type="text" v-model.trim="teamInfo.name" />
         <span>{{ v.errors[0] }}</span>
@@ -24,7 +24,7 @@
         <span>{{ v.errors[0] }}</span>
       </ValidationProvider>
 <br>
-      <ValidationProvider name="活動場所" rules="required" v-slot="v">
+      <ValidationProvider name="活動場所" rules="required|blank" v-slot="v">
         <label for="活動場所：">活動場所</label>
         <input type="text" v-model.trim="teamInfo.area" />
         <span>{{ v.errors[0] }}</span>
@@ -43,6 +43,13 @@ import { required } from "vee-validate/dist/rules";
 extend("required", {
   ...required,
   message: "必須入力項目です"
+});
+
+extend('blank', value => {
+  if(value.indexOf(" ") === -1 && value.indexOf("　") === -1){
+    return true;
+  };
+  return "空白は入力できません"
 });
 
 export default {
