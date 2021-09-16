@@ -77,7 +77,7 @@
         </div>
       </div>
       <div class="bg-cWhite pl-4">
-        <h2 class="font-semibold">Related Videos</h2>
+        <h2 class="font-semibold pb-2">Related Videos</h2>
         <div class="overflow-x-scroll scrollbar-hide flex">
           <base-card 
             v-for="(relatedMovie, index) in relatedMovies"
