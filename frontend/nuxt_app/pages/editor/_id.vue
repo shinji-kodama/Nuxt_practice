@@ -2,15 +2,15 @@
   <layout-wrapper>
     <layout-tab />
     <layout-movie-list-wrapper>
-      <base-heading>{{ tag[0].name }}</base-heading>
-      <layout-movie-list>
-        <base-card 
-          v-for="(movie, index) in movies"
-          :key='index'
-          :title="movie.title"
-          :url="movie.url"
-          :id="movie.id"
-        />
+        <base-heading>{{ editor[0].name }}</base-heading>
+        <layout-movie-list>
+          <base-card 
+            v-for="(movie, index) in movies"
+            :key='index'
+            :title="movie.title"
+            :url="movie.url"
+            :id="movie.id"
+          />
       </layout-movie-list>
     </layout-movie-list-wrapper>
   </layout-wrapper>
@@ -24,17 +24,17 @@ export default {
 
       const movies = await $microcms.get({
         endpoint: 'movie',
-        queries: { filters: `tag[contains]${params.id}` },
+        queries: { filters: `editor[contains]${params.id}` },
       })
 
-      const tag = await $microcms.get({
-        endpoint: 'tag',
+      const editor = await $microcms.get({
+        endpoint: 'editor',
         queries: { filters: `id[equals]${params.id}` },
       })
 
       return {
         movies: movies.contents,
-        tag: tag.contents
+        editor: editor.contents
       }
     } catch (err) {
       error({

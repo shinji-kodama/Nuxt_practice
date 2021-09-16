@@ -2,15 +2,15 @@
   <layout-wrapper>
     <layout-tab />
     <layout-movie-list-wrapper>
-      <base-heading>{{ tag[0].name }}</base-heading>
-      <layout-movie-list>
-        <base-card 
-          v-for="(movie, index) in movies"
-          :key='index'
-          :title="movie.title"
-          :url="movie.url"
-          :id="movie.id"
-        />
+        <base-heading>{{ year }}</base-heading>
+        <layout-movie-list>
+          <base-card 
+            v-for="(movie, index) in movies"
+            :key='index'
+            :title="movie.title"
+            :url="movie.url"
+            :id="movie.id"
+          />
       </layout-movie-list>
     </layout-movie-list-wrapper>
   </layout-wrapper>
@@ -19,22 +19,23 @@
 <script>
 
 export default {
+
+  data() {
+    return {
+      year: this.$route.params.id,
+    };
+  },
+
   async asyncData({ $microcms, params, error }) {
     try {
 
       const movies = await $microcms.get({
         endpoint: 'movie',
-        queries: { filters: `tag[contains]${params.id}` },
-      })
-
-      const tag = await $microcms.get({
-        endpoint: 'tag',
-        queries: { filters: `id[equals]${params.id}` },
+        queries: { filters: `year[equals]${params.id}` },
       })
 
       return {
         movies: movies.contents,
-        tag: tag.contents
       }
     } catch (err) {
       error({

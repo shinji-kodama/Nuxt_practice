@@ -12,9 +12,9 @@
               <div>
                 <h1 class="mb-2 font-semibold">{{ movie.title }}</h1>
                 <div>
-                  <NuxtLink class="text-sm" to="/">{{ movie.area.name }}</NuxtLink>
+                  <NuxtLink class="text-sm" :to="'/area/' + movie.area.id + '/'">{{ movie.area.name }}</NuxtLink>
                   ,
-                  <NuxtLink class="text-sm" to="/">{{ movie.country.name }}</NuxtLink>
+                  <NuxtLink class="text-sm" :to="'/country/' + movie.country.id + '/'">{{ movie.country.name }}</NuxtLink>
                 </div>
               </div>
             </div>
@@ -28,7 +28,7 @@
                 <h2 class="font-semibold">Climber</h2>
               </div>
               <div>
-                <NuxtLink class="text-sm border-b-2" to="/">{{ movie.climber[0].name }}</NuxtLink>
+                <NuxtLink class="text-sm border-b-2" :to="'/climber/' + movie.climber[0].id + '/'">{{ movie.climber[0].name }}</NuxtLink>
               </div>
             </div>
 
@@ -37,7 +37,7 @@
                 <h2 class="font-semibold">Editor</h2>
               </div>
               <div>
-                <NuxtLink class="text-sm border-b-2" to="/">{{ movie.editor[0].name }}</NuxtLink>
+                <NuxtLink class="text-sm border-b-2" :to="'/editor/' + movie.editor[0].id + '/'">{{ movie.editor[0].name }}</NuxtLink>
               </div>
             </div>
 
@@ -46,7 +46,9 @@
                 <h2 class="font-semibold">Problem</h2>
               </div>
               <div>
-                <NuxtLink class="text-sm border-b-2" to="/">{{ movie.problem[0].name }}({{ movie.problem[0].grade }})</NuxtLink>
+                <NuxtLink class="text-sm border-b-2" :to="'/problem/' + movie.problem[0].id + '/'">
+                  {{ movie.problem[0].name }}<span v-if="movie.problem[0].hasOwnProperty('grade')">({{ movie.problem[0].grade }})</span>
+                </NuxtLink>
               </div>
             </div>
 
@@ -55,7 +57,7 @@
                 <h2 class="font-semibold">Year</h2>
               </div>
               <div>
-                <NuxtLink class="text-sm border-b-2" to="/">{{ movie.year }}</NuxtLink>
+                <NuxtLink class="text-sm border-b-2" :to="'/year/' + movie.year + '/'">{{ movie.year }}</NuxtLink>
               </div>
             </div>
 
@@ -94,6 +96,12 @@
 <script>
 
 export default {
+  //   data() {
+  //   return {
+  //     // isGrade: false,
+  //     isGrade: this.movie.problem[0].hasOwnProperty('grade')
+  //   };
+  // },
 
   async asyncData({ $microcms, params, error }) {
     try {
