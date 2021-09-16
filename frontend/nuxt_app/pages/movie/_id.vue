@@ -74,12 +74,18 @@
 
           </div>
           <!-- リンク先 -->
-          <div>
-
-          </div>
         </div>
-        <div>
-          <p>Related Videos</p>       
+      </div>
+      <div class="bg-cWhite pl-4">
+        <h2 class="font-semibold">Related Videos</h2>
+        <div class="overflow-x-scroll scrollbar-hide flex">
+          <base-card 
+            v-for="(relatedMovie, index) in relatedMovies"
+            :key='index'
+            :title="relatedMovie.title"
+            :url="relatedMovie.url"
+            :id="relatedMovie.id"
+          />
         </div>
       </div>
   </layout-wrapper>
@@ -94,8 +100,13 @@ export default {
       const movie = await $microcms.get({
         endpoint: `movie/${params.id}`
       })
+      const relatedMovies = await $microcms.get({
+        endpoint: 'movie',
+        queries: { filters: `relatedMovie[contains]${params.id}` },
+      })
       return {
         movie: movie,
+        relatedMovies: relatedMovies.contents
       }
     } catch (err) {
       error({
