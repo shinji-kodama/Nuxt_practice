@@ -5,7 +5,7 @@
           <img class="max-w-full" :src="`https://i.ytimg.com/vi/${url}/${pictureNumber}.jpg`" :alt="title">
         </div>
       <div>
-        <h2>{{ title }}</h2>
+        <h2 class="text-sm line-clamp-2">{{ title }}</h2>
       </div>
     </NuxtLink>
   </div>

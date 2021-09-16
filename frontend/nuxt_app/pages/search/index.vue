@@ -3,14 +3,14 @@
   <layout-wrapper>
     <layout-tab />
 
-    <div class="flex flex-col space-y-wrapper pt-wrapper">
+    <div class="flex flex-col bg-cWhite px-4 mh-">
       <!-- 検索 -->
       <div class="pt-4 md:pt-6">
         <form
           action="."
           @submit.prevent
         >
-          <div class="box-x-wrapper">
+          <div class="">
             <label for="" class="py-2 fs-small-regular">Search</label>
             <div class="flex border-b border-element-divider-light">
                 <input
@@ -18,30 +18,33 @@
                 @keypress.enter="search"
                 v-model="input"
                 placeholder="Type it in"
-                class="outline-none py-4 flex-1 min-w-0"
+                class="outline-none py-4 flex-1 min-w-0 bg-cWhite"
                 >
 
             </div>
           </div>
         </form>
       </div>
+      <div class="h-screen pt-4">
+        <div
+        v-show="movies.length >= 1"
+        class="grid grid-cols-2 gap-1">
+            <base-card 
+              v-for="(movie, index) in movies[0]"
+              :key='index'
+              :title="movie.title"
+              :url="movie.url"
+              :id="movie.id"
+            />
+          <div v-show="movies[0] == ''">
+            <p>sorry... No Movies</p>
+          </div>
 
-      <div v-show="movies.length >= 1">
-          <base-card 
-            v-for="(movie, index) in movies[0]"
-            :key='index'
-            :title="movie.title"
-            :url="movie.url"
-            :id="movie.id"
-          />
-        <div v-show="movies[0] == ''">
-          <p>sorry... No Movies</p>
         </div>
-
       </div>
 
       <!-- タグの一覧 -->
-      <div class="box-x-wrapper">
+      <!-- <div class="box-x-wrapper">
         <div class="mt-6">
           <div class="py-2 fs-small-regular">Boulder</div>
           <ul class="grid grid-cols-12 gap-4 my-4">
@@ -54,7 +57,7 @@
             </li>
           </ul>
         </div>
-      </div>
+      </div> -->
     </div>
 
   <!-- layoutここまで -->
