@@ -10,14 +10,9 @@
           action="."
           @submit.prevent
         >
-        <!-- <form action=""> -->
           <div class="box-x-wrapper">
             <label for="" class="py-2 fs-small-regular">Search</label>
             <div class="flex border-b border-element-divider-light">
-              <!-- <form
-              action="."
-              @submit.prevent
-              > -->
                 <input
                 type="search"
                 @keypress.enter="search"
@@ -25,24 +20,13 @@
                 placeholder="Type it in"
                 class="outline-none py-4 flex-1 min-w-0"
                 >
-                <!-- <button @click="getClear">clear</button> -->
-              <!-- </form> -->
-              <!-- <input 
-               @keypress.enter="search"
-               v-model="input"
-              type="text" placeholder="Type it in" class="outline-none py-4 flex-1 min-w-0"> -->
+
             </div>
           </div>
         </form>
-        <button @click="getClear">clear</button>
       </div>
 
-      <!-- <div>
-        <p>{{ movies }}</p>
-      </div> -->
       <div v-show="movies.length >= 1">
-        <!-- <div v-for="(movie, index) in movies"
-            :key='index'> -->
           <base-card 
             v-for="(movie, index) in movies[0]"
             :key='index'
@@ -50,7 +34,6 @@
             :url="movie.url"
             :id="movie.id"
           />
-        <!-- </div> -->
         <div v-show="movies[0] == ''">
           <p>sorry... No Movies</p>
         </div>
@@ -92,25 +75,16 @@ export default {
   },
 
   methods: {
-    // async search({ $config }) {
 
-    //   console.log(this.input)
-    //   const response = await axios.get(`https://r0ckandc0de.microcms.io/api/v1/movie?q=${this.input}`, {
-    //     headers: { 'X-API-KEY': 'cb293607-01ce-43c6-8ab4-7cf59aadf40f' }
-    //   }).then(response => {
-    //     console.log(response)
-    //   })
-    //   // console.log('成功')
-    //   // console.log(movies)
-    //   // return{
-    //   //   movies: movies.contents,
-    //   // }
+    search() {
+      console.log(this.input)
+      const apiUrl = this.$config.apiUrl
+      const apiKey = this.$config.apiKey
+      const endPoint = 'movie'
 
-     search() {
-        console.log(this.input)
-        this.movies = []
-        axios.get(`https://r0ckandc0de.microcms.io/api/v1/movie?q=${this.input}`, {
-          headers: { 'X-API-KEY': 'cb293607-01ce-43c6-8ab4-7cf59aadf40f' }
+      this.movies = []
+      axios.get(`${apiUrl}/${endPoint}?q=${this.input}`, {
+        headers: { 'X-API-KEY': apiKey }
         }).then(response => {
           console.log('response')
           this.movies.push(response.data.contents)
@@ -122,58 +96,7 @@ export default {
       this.movies = []
     }
 
-    },
-
-    
-
-
-
-  // async asyncData({ $config }) {
-  //   const { data } = await axios.get(`${$config.apiUrl}/movie`, {
-  //     headers: { 'X-API-KEY': $config.apiKey },
-  //   })
-  //   return {
-  //     movies: data.contents,
-  //   }
-  // },
-
-
-  // methods: {
-  //   async search({ $microcms }) {
-  //     console.log(this.input)
-  //     const movies = await $microcms.get({
-  //       endpoint: 'movie?q=James',
-  //     })
-
-  //     return{
-  //       movies: movies.contents,
-  //     }
-  //   },
-  // },
-
-  // async asyncData({ $microcms }) {
-  //   const movies = await $microcms.get({
-  //     endpoint: 'movie?q=James',
-  //   });
-
-  //   return{
-  //     movies: movies.contents,
-  //   }
-  // }
-
-  
+  },
 };
 
-
-// export default {
-
-//   async asyncData({ $config }) {
-//     const { data } = await axios.get(`${$config.apiUrl}/movie`, {
-//       headers: { 'X-API-KEY': $config.apiKey },
-//     })
-//     return {
-//       movies: data.contents,
-//     }
-//   },
-// }
 </script>
