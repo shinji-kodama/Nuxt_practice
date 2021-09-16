@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="my-5">
     <div>
       <input
         v-model="keyword"
@@ -16,8 +16,8 @@
         placeholder-gray-500
         border
         border-gray-200
-        rounded-md
-        py-2 pl-4"
+        rounded-lg
+        p-2"
         aria-label="Let's search other teams!"
         placeholder="さあ、試合相手を見つけよう！"
       />
