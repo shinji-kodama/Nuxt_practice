@@ -3,7 +3,7 @@
   <layout-wrapper>
     <layout-tab />
 
-    <div class="flex flex-col bg-cWhite px-4 mh-">
+    <div class="flex flex-col bg-cWhite px-3">
       <!-- 検索 -->
       <div class="pt-4 md:pt-6">
         <form
@@ -12,7 +12,7 @@
         >
           <div class="">
             <label for="" class="py-2 fs-small-regular">Search</label>
-            <div class="flex border-b border-element-divider-light">
+            <div class="flex border-b">
                 <input
                 type="search"
                 @keypress.enter="search"
@@ -25,24 +25,18 @@
           </div>
         </form>
       </div>
-      <div class="h-screen pt-4">
-        <div
-        v-show="movies.length >= 1"
-        class="grid grid-cols-2 gap-1">
-            <base-card 
-              v-for="(movie, index) in movies[0]"
-              :key='index'
-              :title="movie.title"
-              :url="movie.url"
-              :id="movie.id"
-            />
-          <div v-show="movies[0] == ''">
-            <p>sorry... No Movies</p>
-          </div>
-
+      <layout-movie-list :bool="movies.length >= 1">
+        <base-card 
+          v-for="(movie, index) in movies[0]"
+          :key='index'
+          :title="movie.title"
+          :url="movie.url"
+          :id="movie.id"
+        />
+        <div v-show="movies[0] == ''">
+          <p>sorry... No Movies</p>
         </div>
-      </div>
-
+      </layout-movie-list>
       <!-- タグの一覧 -->
       <!-- <div class="box-x-wrapper">
         <div class="mt-6">
@@ -80,6 +74,7 @@ export default {
   methods: {
 
     search() {
+      if(this.input === '') return
       console.log(this.input)
       const apiUrl = this.$config.apiUrl
       const apiKey = this.$config.apiKey

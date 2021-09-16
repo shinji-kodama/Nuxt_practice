@@ -4,71 +4,70 @@
       <div class="video">
         <iframe width="100%" height="100%" :src="`https://www.youtube.com/embed/${movie.url}`" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
       </div>
-      <div class="flex flex-col bg-cWhite">
+      <div class="flex flex-col bg-cWhite p-4">
         <div class="flex flex-col xl:px-10 xl:pt-2">
           <!-- タイトルと国名 -->
-          <div>
-            <div>
+          <div class="">
+            <div class="mb-1">
               <div>
-                <h1>{{ movie.title }}</h1>
+                <h1 class="mb-2 font-semibold">{{ movie.title }}</h1>
                 <div>
-                  <NuxtLink to="/">{{ movie.area.name }}</NuxtLink>
+                  <NuxtLink class="text-sm" to="/">{{ movie.area.name }}</NuxtLink>
                   ,
-                  <NuxtLink to="/">{{ movie.country.name }}</NuxtLink>
+                  <NuxtLink class="text-sm" to="/">{{ movie.country.name }}</NuxtLink>
                 </div>
               </div>
             </div>
             <div class="border-b"></div>
           </div>
           <!-- 基本情報、タグ情報 -->
-          <div class="py-2 grid grid-cols-2 border-b">
+          <div class="py-5 grid grid-cols-2 gap-2 border-b">
             <!-- 1ユニット -->
             <div class="my-4 inline-block w-full">
               <div>
-                <h2>Climber</h2>
+                <h2 class="font-semibold">Climber</h2>
               </div>
               <div>
-                <NuxtLink to="/">{{ movie.climber[0].name }}</NuxtLink>
-              </div>
-            </div>
-
-            <div class="my-4 inline-block w-full">
-              <div>
-                <h2>Editor</h2>
-              </div>
-              <div>
-                <NuxtLink to="/">{{ movie.editor[0].name }}</NuxtLink>
+                <NuxtLink class="text-sm border-b-2" to="/">{{ movie.climber[0].name }}</NuxtLink>
               </div>
             </div>
 
             <div class="my-4 inline-block w-full">
               <div>
-                <h2>Problem</h2>
+                <h2 class="font-semibold">Editor</h2>
               </div>
               <div>
-                <NuxtLink to="/">{{ movie.problem[0].name }}({{ movie.problem[0].grade }})</NuxtLink>
-              </div>
-            </div>
-
-            <div class="my-4 inline-block w-full">
-              <div>
-                <h2>Year</h2>
-              </div>
-              <div>
-                <NuxtLink to="/">{{ movie.year }}</NuxtLink>
+                <NuxtLink class="text-sm border-b-2" to="/">{{ movie.editor[0].name }}</NuxtLink>
               </div>
             </div>
 
             <div class="my-4 inline-block w-full">
               <div>
-                <h2>Tags</h2>
+                <h2 class="font-semibold">Problem</h2>
+              </div>
+              <div>
+                <NuxtLink class="text-sm border-b-2" to="/">{{ movie.problem[0].name }}({{ movie.problem[0].grade }})</NuxtLink>
+              </div>
+            </div>
+
+            <div class="my-4 inline-block w-full">
+              <div>
+                <h2 class="font-semibold">Year</h2>
+              </div>
+              <div>
+                <NuxtLink class="text-sm border-b-2" to="/">{{ movie.year }}</NuxtLink>
+              </div>
+            </div>
+
+            <div class="my-4 inline-block w-full">
+              <div>
+                <h2 class="font-semibold">Tags</h2>
               </div>
               <div>
                 <div v-for="(tag, index) in movie.tag"
                   :key="index"
                 >
-                  <NuxtLink :to="'/tag/' + tag.id + '/'">{{ tag.name }}</NuxtLink>
-                  <!-- <a :href="'/tag/' + tag.id + '/'">{{ tag.name }}</a> -->
+                  <NuxtLink class="text-sm border-b-2" :to="'/tag/' + tag.id + '/'">{{ tag.name }}</NuxtLink>
                 </div>
               </div>
             </div>

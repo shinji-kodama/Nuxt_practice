@@ -1,16 +1,18 @@
 <template>
   <layout-wrapper>
     <layout-tab />
-    <div class="bg-cWhite py-5">
+    <layout-movie-list-wrapper>
       <base-heading>{{ tag[0].name }}</base-heading>
-      <base-card 
+        <layout-movie-list>
+          <base-card 
             v-for="(movie, index) in movies"
             :key='index'
             :title="movie.title"
             :url="movie.url"
             :id="movie.id"
           />
-    </div>
+      </layout-movie-list>
+    </layout-movie-list-wrapper>
   </layout-wrapper>
 </template>
 
