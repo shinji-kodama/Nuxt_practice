@@ -6,7 +6,7 @@
       </div>
       <div class="flex flex-col bg-cWhite p-4">
         <div class="flex flex-col xl:px-10 xl:pt-2">
-          <!-- タイトルと国名 -->
+
           <div class="">
             <div class="mb-1">
               <div>
@@ -20,15 +20,16 @@
             </div>
             <div class="border-b"></div>
           </div>
-          <!-- 基本情報、タグ情報 -->
+
           <div class="py-5 grid grid-cols-2 gap-2 border-b">
-            <!-- 1ユニット -->
             <div class="my-4 inline-block w-full">
               <div>
                 <h2 class="font-semibold">Climber</h2>
               </div>
-              <div>
-                <NuxtLink class="text-sm border-b-2" :to="'/climber/' + movie.climber[0].id + '/'">{{ movie.climber[0].name }}</NuxtLink>
+              <div v-for="(climber, index) in movie.climber"
+                  :key="index"
+                >
+                <NuxtLink class="text-sm border-b-2" :to="'/climber/' + climber.id + '/'">{{ climber.name }}</NuxtLink>
               </div>
             </div>
 
@@ -36,8 +37,10 @@
               <div>
                 <h2 class="font-semibold">Editor</h2>
               </div>
-              <div>
-                <NuxtLink class="text-sm border-b-2" :to="'/editor/' + movie.editor[0].id + '/'">{{ movie.editor[0].name }}</NuxtLink>
+              <div v-for="(editor, index) in movie.editor"
+                  :key="index"
+                >
+                <NuxtLink class="text-sm border-b-2" :to="'/editor/' + editor.id + '/'">{{ editor.name }}</NuxtLink>
               </div>
             </div>
 
@@ -45,16 +48,18 @@
               <div>
                 <h2 class="font-semibold">Problem</h2>
               </div>
-              <div>
-                <NuxtLink class="text-sm border-b-2" :to="'/problem/' + movie.problem[0].id + '/'">
-                  {{ movie.problem[0].name }}<span v-if="movie.problem[0].hasOwnProperty('grade')">({{ movie.problem[0].grade }})</span>
+              <div v-for="(problem, index) in movie.problem"
+                  :key="index"
+                >
+                <NuxtLink class="text-sm border-b-2" :to="'/problem/' + problem.id + '/'">
+                  {{ problem.name }}<span v-if="problem.hasOwnProperty('grade')">({{ problem.grade }})</span>
                 </NuxtLink>
               </div>
             </div>
 
             <div class="my-4 inline-block w-full">
               <div>
-                <h2 class="font-semibold">Year</h2>
+                <h2 class="font-semibold">Published</h2>
               </div>
               <div>
                 <NuxtLink class="text-sm border-b-2" :to="'/year/' + movie.year + '/'">{{ movie.year }}</NuxtLink>
