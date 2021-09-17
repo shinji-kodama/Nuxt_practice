@@ -101,12 +101,6 @@
 <script>
 
 export default {
-  //   data() {
-  //   return {
-  //     // isGrade: false,
-  //     isGrade: this.movie.problem[0].hasOwnProperty('grade')
-  //   };
-  // },
 
   async asyncData({ $microcms, params, error }) {
     try {

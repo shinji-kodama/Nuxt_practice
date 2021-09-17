@@ -12,10 +12,10 @@
       <div class="z-10 flex-1 py-8 md:py-20 lg:py-32">
         <div class="transition duration-500 px-3 ">
           <p class="text-cBlack text-lg font-bold">
-            Alex Megos Climbs "Lucid Dreaming" (8C/V15) In Bishop
+            {{ topMovie[0].title }}
           </p>
           <p class="text-cBlack text-lg font-bold">
-            Alex Megos
+            {{ topMovie[0].climber[0].name }}
           </p>
         </div>
         <div class="flex mt-6 ml-3">
@@ -28,7 +28,6 @@
         </div>
       </div>
     </div> 
-    <!-- {{ movies }} -->
     <!-- トップ動画ここまで -->
     <div class="bg-cWhite py-5">
       <base-heading>Latest videos</base-heading>
@@ -81,6 +80,58 @@
           />
         </div>
     </div>
+
+    <div class="bg-cWhite py-5">
+      <base-heading>Boulder</base-heading>
+        <div class="overflow-x-scroll scrollbar-hide flex ml-3">
+          <base-card 
+            v-for="(boulder, index) in boulders"
+            :key='index'
+            :title="boulder.title"
+            :url="boulder.url"
+            :id="boulder.id"
+          />
+        </div>
+    </div>
+
+    <div class="bg-cWhite py-5">
+      <base-heading>Sport</base-heading>
+        <div class="overflow-x-scroll scrollbar-hide flex ml-3">
+          <base-card 
+            v-for="(sport, index) in sports"
+            :key='index'
+            :title="sport.title"
+            :url="sport.url"
+            :id="sport.id"
+          />
+        </div>
+    </div>
+
+    <div class="bg-cWhite py-5">
+      <base-heading>Trad</base-heading>
+        <div class="overflow-x-scroll scrollbar-hide flex ml-3">
+          <base-card 
+            v-for="(trad, index) in trads"
+            :key='index'
+            :title="trad.title"
+            :url="trad.url"
+            :id="trad.id"
+          />
+        </div>
+    </div>
+
+    <div class="bg-cWhite py-5">
+      <base-heading>BigWall</base-heading>
+        <div class="overflow-x-scroll scrollbar-hide flex ml-3">
+          <base-card 
+            v-for="(bigwall, index) in bigwalls"
+            :key='index'
+            :title="bigwall.title"
+            :url="bigwall.url"
+            :id="bigwall.id"
+          />
+        </div>
+    </div>
   <!-- layoutここまで -->
   </layout-wrapper>
 </template>
@@ -94,6 +145,11 @@ export default {
       queries: { limit: 10 },
     });
 
+    const topMovie = await $microcms.get({
+      endpoint: 'movie',
+      queries: { limit: 1, filters: 'top[equals]true' },
+    });
+
     const features = await $microcms.get({
       endpoint: 'movie',
       queries: { limit: 10, filters: 'feature[equals]true' },
@@ -104,10 +160,35 @@ export default {
       queries: { limit: 12, filters: 'garally[equals]true' },
     });
 
+    const boulders = await $microcms.get({
+      endpoint: 'movie',
+      queries: { limit: 10, filters: `tag[contains]tdj53b2z-4n`},
+    });
+
+    const sports = await $microcms.get({
+      endpoint: 'movie',
+      queries: { limit: 10, filters: `tag[contains]kxw_jvthdfv`},
+    });
+
+    const trads = await $microcms.get({
+      endpoint: 'movie',
+      queries: { limit: 10, filters: `tag[contains]aa58o79k7`},
+    });
+
+    const bigwalls = await $microcms.get({
+      endpoint: 'movie',
+      queries: { limit: 10, filters: `tag[contains]t2r1pghpocx`},
+    });
+
     return{
       movies: movies.contents,
+      topMovie: topMovie.contents,
       features: features.contents,
-      garallies: garallies.contents
+      garallies: garallies.contents,
+      boulders: boulders.contents,
+      sports: sports.contents,
+      trads: trads.contents,
+      bigwalls: bigwalls.contents
     }
   }
 }
