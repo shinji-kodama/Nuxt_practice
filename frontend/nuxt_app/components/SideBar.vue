@@ -1,6 +1,6 @@
 <template>
-  <div class="my-5">
-    <div>
+  <div>
+    <div class="m-2">
       <input
         v-model="keyword"
         @input="sorted"
@@ -17,15 +17,18 @@
         border
         border-gray-200
         rounded-lg
-        p-2"
+        my-2
+        p-3"
         aria-label="Let's search other teams!"
         placeholder="さあ、試合相手を見つけよう！"
       />
-    </div>
-    <ul v-for="team in TeamList" :key="team.id" class="hidden md:block mt-2">
-      <li class="mt-3 ml-2">{{ team.name }}</li>
-    </ul>
+      <div class="flex flex-wrap">
+        <ul v-for="team in TeamList" :key="team.id" class="w-1/2 text-center">
+          <li class="mt-3">{{ team.name }}</li>
+        </ul>
+      </div>
   </div>
+</div>
 </template>
 
 <script>
