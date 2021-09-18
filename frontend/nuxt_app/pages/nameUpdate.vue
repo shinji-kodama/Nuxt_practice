@@ -50,12 +50,16 @@ export default {
           displayName: this.name
         })
         .then(() => {
+          auth.onAuthStateChanged((user) => {
+            this.$store.dispatch("user/makeUserInfo", { uid: user.uid, displayName: user.displayName });
+        });     
           console.log("success");
-          this.$router.push("/myPage");
         })
         .catch(error => {
           console.log(error);
         });
+
+       this.$router.push("/myPage");
     }
   }
 };

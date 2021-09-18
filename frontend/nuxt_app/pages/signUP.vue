@@ -8,7 +8,7 @@
       type="text"
       class="border border-gray-200 m-5"
       placeholder="メールアドレス"
-      v-model.trim.lazy="mail"
+      v-model.trim="mail"
     />
   <span>{{ v.errors[0] }}</span>
   </ValidationProvider>
@@ -19,7 +19,7 @@
       type="text"
       class="border border-gray-200 m-5"
       placeholder="パスワード"
-      v-model.trim.lazy="pass"
+      v-model.trim="pass"
     />
   <span>{{ v.errors[0] }}</span>
   </ValidationProvider>

@@ -1,10 +1,9 @@
 <template>
   <div>
-    {{ chats }}
     <ul>
       <li v-for="chat in chats" :key="chat.uid">
         <!-- <span v-if="chat.create_date"> -->
-          {{ chat.uid }}
+          {{ chat.message }}
           <!-- {{ chat.created.toDate() }} -->
         <!-- </span> -->
         <button v-on:click="remove(chat.id)">X</button>
@@ -21,6 +20,7 @@
 
 <script>
 import firebase from "~/plugins/firebase";
+import { auth } from "~/plugins/firebase";
 
 const db = firebase.firestore();
 const chatsRef = db.collection("chats");
@@ -31,20 +31,30 @@ export default {
       chatData: {
         message: "",
         docId: this.$route.params.id,
-        uid: 2,
+        uid: "",
       },
 
       chats: [],
     };
   },
   created: function() {
-    // this.$store.dispatch("chat/chatInit", { docId: this.chatData.docId });
-    
+    //サブコレクションからメッセージを取得する
     chatsRef.doc(this.$route.params.id).collection("message").onSnapshot(snapshot => {
-      snapshot.forEach(doc => {
-        this.chats.push(doc.data());
-        console.log(doc.data());
+      snapshot.docChanges().forEach(change => {
+        if(change.type === "added"){
+          this.chats.push(change.doc.data());
+          console.log(change.doc.data());
+        }
       })
+    });
+
+    //メッセージにuidを含める
+    auth.onAuthStateChanged((user) => {
+      if (!user) {
+        this.chatData.uid = null;
+      } else {
+        this.chatData.uid = user.uid;
+      }
     });
   },
   methods: {

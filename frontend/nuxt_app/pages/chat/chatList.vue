@@ -3,9 +3,8 @@
     <ul>
       <li v-for="chat in chats" :key="chat.id">
         <nuxt-link :to="'/chat/' + chat.id">
-            <span v-if="chat.create_date">
-            {{ chat.id }}
-            <!-- {{ chat.created.toDate() }} -->
+            <span v-for="user in users">
+            {{ user.displayName }}
             </span>
         </nuxt-link>
         <button v-on:click="remove(chat.id)">X</button>
@@ -15,14 +14,30 @@
 </template>
 
 <script>
+import { auth } from "~/plugins/firebase";
+
 export default {
   data() {
     return {
+        chatInfo: {
+            uid: "",
+            other_id: "",
+        },
         sendMessage: "",
     };
   },
   created: function() {
     this.$store.dispatch("chat/init");
+    this.$store.dispatch("user/userInit");
+
+    //ログイン中のユーザーuidをdataに保存
+    auth.onAuthStateChanged((user) => {
+      if (!user) {
+        this.chatInfo.uid = null;
+      } else {
+        this.chatInfo.uid = user.uid;
+      }
+    });
   },
   methods: {
     add() {
@@ -34,9 +49,19 @@ export default {
     }
   },
   computed: {
-    chats() {
-      return this.$store.state.chat.chats.filter(el => el.member.uid === 2);
-    }
+        chats() {
+            const chats =  this.$store.state.chat.chats.filter(el => el.uid === this.chatInfo.uid);
+
+            chats.forEach(el => {
+                this.chatInfo.uid = el.uid;
+                this.chatInfo.uid = el.other_id;
+        });
+            return chats;
+        },
+
+        users(){
+            return this.$store.state.user.users.filter(el => el.uid === this.chatInfo.uid);
+        },
    },
 };
 

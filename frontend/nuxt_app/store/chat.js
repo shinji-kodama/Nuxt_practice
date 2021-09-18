@@ -23,6 +23,14 @@ export const actions = {
     // chatsRef.doc(docId).collection("message").onSnapshot(snapshot => snapshot.forEach(doc => state.messages = doc.data()));
     // console.log(state.messages)
   }),
+  makeChatRoom: firestoreAction((context, { uid, other_id }) => {
+    console.log(uid, other_id);
+    chatsRef.add({
+        uid: uid,
+        other_id: other_id,
+        create_date: firebase.firestore.FieldValue.serverTimestamp(),
+    });
+  }),
   add: firestoreAction((context, { docId, message, uid}) => {
     console.log(docId, message, uid);
     if (message.trim()) {
