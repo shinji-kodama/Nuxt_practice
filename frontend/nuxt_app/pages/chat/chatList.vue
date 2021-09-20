@@ -1,15 +1,66 @@
 <template>
   <div>
-    <ul>
-      <li v-for="chat in chats" :key="chat.id">
-        <nuxt-link :to="'/chat/' + chat.id">
-            <span v-for="user in users">
-            {{ user.displayName }}
-            </span>
-        </nuxt-link>
-        <button v-on:click="remove(chat.id)">X</button>
-      </li>
-    </ul>
+    <div class="flex flex-col">
+      <div class="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
+        <div class="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8">
+          <div
+            class="shadow overflow-hidden border-b border-gray-200 sm:rounded-lg"
+          >
+            <!-- テーブル全体 -->
+            <table class="min-w-full divide-y divide-gray-200">
+              <!-- テーブルカード -->
+              <tbody class="bg-white divide-y divide-gray-200">
+                <tr
+                  v-for="chat in chats"
+                  :key="chat.id"
+                  class="px-6 py-4 whitespace-nowrap"
+                >
+                  <td>
+                    <nuxt-link :to="'/chat/' + chat.id">
+                      <div
+                        v-for="user in users"
+                        :key="user.id"
+                        class="flex items-center"
+                      >
+                        <!-- ユーザー画像 -->
+                        <div class=" flex-shrink-0 h-10 w-10">
+                          <img
+                            class="h-10 w-10 rounded-full"
+                            src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=4&w=256&h=256&q=60"
+                            alt=""
+                          />
+                        </div>
+
+                        <!-- ユーザー名 -->
+                        <div class="ml-4">
+                          <div class="text-sm font-medium text-gray-900">
+                            {{ chat.team_name }}
+                          </div>
+
+                          <!-- ユーザーアドレス -->
+                          <div class="text-sm text-gray-500">
+                            {{ user.displayName }}
+                          </div>
+                        </div>
+                      </div>
+                    </nuxt-link>
+                  </td>
+
+                  <!-- アイコン -->
+                  <td class="px-6 py-4 whitespace-nowrap">
+                    <span
+                      class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-red-100 text-red-800"
+                    >
+                      <button v-on:click="remove(chat.id)">delete</button>
+                    </span>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -19,11 +70,10 @@ import { auth } from "~/plugins/firebase";
 export default {
   data() {
     return {
-        chatInfo: {
-            uid: "",
-            other_id: "",
-        },
-        sendMessage: "",
+      chatInfo: {
+        uid: "",
+        other_id: ""
+      }
     };
   },
   created: function() {
@@ -31,7 +81,7 @@ export default {
     this.$store.dispatch("user/userInit");
 
     //ログイン中のユーザーuidをdataに保存
-    auth.onAuthStateChanged((user) => {
+    auth.onAuthStateChanged(user => {
       if (!user) {
         this.chatInfo.uid = null;
       } else {
@@ -40,31 +90,32 @@ export default {
     });
   },
   methods: {
-    add() {
-      this.$store.dispatch("chat/add", this.sendMessage);
-      this.sendMessage = "";
-    },
-    remove() {
-      this.$store.dispatch("chat/remove");
+    remove(id) {
+      this.$store.dispatch("chat/remove", id);
     }
   },
   computed: {
-        chats() {
-            const chats =  this.$store.state.chat.chats.filter(el => el.uid === this.chatInfo.uid);
+    //chatsデータの中で自分のuidが含まれるルームだけ表示する
+    chats() {
+      const chats = this.$store.state.chat.chats.filter(
+        el => el.uid === this.chatInfo.uid
+      );
 
-            chats.forEach(el => {
-                this.chatInfo.uid = el.uid;
-                this.chatInfo.uid = el.other_id;
-        });
-            return chats;
-        },
+      chats.forEach(el => {
+        this.chatInfo.uid = el.uid;
+        this.chatInfo.uid = el.other_id;
+      });
+      return chats;
+    },
 
-        users(){
-            return this.$store.state.user.users.filter(el => el.uid === this.chatInfo.uid);
-        },
-   },
+    //チャット相手のユーザー名を表示する
+    users() {
+      return this.$store.state.user.users.filter(
+        el => el.uid === this.chatInfo.uid
+      );
+    }
+  }
 };
-
 </script>
 
 <style scoped>

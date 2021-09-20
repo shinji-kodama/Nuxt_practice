@@ -18,26 +18,26 @@ export const actions = {
   init: firestoreAction(({ bindFirestoreRef }) => {
     bindFirestoreRef("chats", chatsRef);
   }),
-  chatInit: firestoreAction((context, { docId }) => {
-    console.log(docId);
-    // chatsRef.doc(docId).collection("message").onSnapshot(snapshot => snapshot.forEach(doc => state.messages = doc.data()));
-    // console.log(state.messages)
-  }),
-  makeChatRoom: firestoreAction((context, { uid, other_id }) => {
-    console.log(uid, other_id);
+
+  makeChatRoom: firestoreAction((context, { uid, other_id, team_id, team_name }) => {
+    console.log(uid, other_id,  team_id);
     chatsRef.add({
         uid: uid,
         other_id: other_id,
-        create_date: firebase.firestore.FieldValue.serverTimestamp(),
+        team_id: team_id,
+        team_name: team_name,
+        timestamp: firebase.firestore.FieldValue.serverTimestamp(),
     });
   }),
-  add: firestoreAction((context, { docId, message, uid}) => {
-    console.log(docId, message, uid);
+
+  add: firestoreAction((context, { docId, message, uid, read}) => {
+    console.log(docId, message, uid, read);
     if (message.trim()) {
       chatsRef.doc(docId).collection("message").doc().set({
           message: message,
           uid: uid,
-          creat_date: firebase.firestore.FieldValue.serverTimestamp(),
+          read: read,
+        timestamp: firebase.firestore.FieldValue.serverTimestamp(),
         // message: {
         //     message: {
         //         uid: uid,
@@ -53,12 +53,17 @@ export const actions = {
       });
     }
   }),
+
+  setReadFlag: firestoreAction((context, { docId, subDocId }) => {
+    console.log(docId, subDocId);
+    chatsRef.doc(docId).collection("message").doc(subDocId).update({
+        read: true,
+        timestamp: firebase.firestore.FieldValue.serverTimestamp(),
+    });
+  }),
+
   remove: firestoreAction((context, id) => {
     chatsRef.doc(id).delete();
   }),
-  toggle: firestoreAction((context, chat) => {
-    chatsRef.doc(chat.id).update({
-      done: !chat.done
-    });
-  })
+  
 };
