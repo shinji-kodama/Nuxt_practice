@@ -89,10 +89,10 @@ export default {
           if (change.type === "added") {
             this.chats.push(change.doc.data());
             //チャットルームを開くと既読フラグ(read)をtrueにする
-            // if (change.doc.data().read === false) {
-            //   console.log("aaa");
-            //   this.$store.dispatch("chat/setReadFlag", { docId: this.$route.params.id, subDocId: change.doc.id });
-            // };
+            if (change.doc.data().read === false) {
+              console.log("aaa");
+              this.$store.dispatch("chat/setReadFlag", { docId: this.$route.params.id, subDocId: change.doc.id });
+            };
           };
         });
       });

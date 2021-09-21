@@ -5,7 +5,6 @@
       <div
         class="
           md:absolute
-          md:bg-gray-200
           w-full
           md:w-1/3
           md:m-10
@@ -40,7 +39,7 @@
     </div>
 
     <!-- メインエリア -->
-    <div class="bg-gray-200 relative backdrop-opacity-50">
+    <div class="relative backdrop-opacity-50">
       <!-- カード・リスト切り替えバー -->
       <div class="md:flex md:w-11/12 mx-auto"></div>
       <div class="md:w-4/5 mx-auto">

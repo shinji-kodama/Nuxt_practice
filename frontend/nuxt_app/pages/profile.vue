@@ -1,38 +1,112 @@
 <template>
   <div>
-
-    <!-- マイページ表示 -->
-    <div>＜＜ユーザー情報＞＞</div>
+    <!-- 
+      
+      プロフィール表示画面
+    
+     -->
     <template v-if="isEdited">
-      <div><img :src="profileImage" /></div>
-      <div>ユーザー名：{{ userInfo.loginName }}</div>
-      <div>メールアドレス：{{ userInfo.email }}</div>
-      <button @click="edit">編集</button>
+      <div class="bg-white divide-y divide-gray-200">
+        <div class="px-6 py-4 whitespace-nowrap">
+          <div class="flex items-center">
+            <!-- ユーザー画像 -->
+            <div class=" flex-shrink-0 h-10 w-10">
+              <img class="h-10 w-10 rounded-full" :src="profileImage" alt="" />
+            </div>
+
+            <div class="ml-4">
+              <!-- ユーザー名 -->
+              <div class="text-sm font-medium text-gray-900">
+                {{ userInfo.loginName }}
+              </div>
+
+              <!-- ユーザーアドレス -->
+              <div class="text-sm text-gray-500">
+                <button>{{ userInfo.email }}</button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <button
+          @click="edit"
+          class="w-11/12 bg-yellow-400 text-white m-3 p-3 rounded-md"
+        >
+          プロフィールを編集
+        </button>
+        <button class="w-11/12 bg-yellow-400 text-white m-3 p-3 rounded-md">
+          <NuxtLink to="myPage">マイページへ戻る</NuxtLink>
+        </button>
+      </div>
     </template>
 
-    <!-- 編集画面 -->
+    <!-- 
+      
+      プロフィール編集画面
+      
+       -->
     <template v-else>
-      <img :src="profileImage" />
-      <div><input type="file" @change="selectImage" /></div>
+      <div class="bg-white divide-y divide-gray-200">
+        <ValidationObserver v-slot="{ invalid }">
+          <div class="px-6 py-4 whitespace-nowrap">
+            <div class="flex items-center">
+              <!-- ユーザー画像 -->
+              <div class="h-20 w-20 mx-auto">
+                <img :src="profileImage" class="h-20 w-20 rounded-full" />
+              </div>
+            </div>
+            <div class="flex w-full my-3">
+              <input type="file" @change="selectImage" class="w-full mx-5" />
+            </div>
 
-  <ValidationObserver v-slot="{ invalid }">
-    <ValidationProvider name="ユーザー名" rules="required" v-slot="{errors}">
-      <div><input type="text" v-model="userInfo.loginName" /></div>
-      <span>{{ errors[0] }}</span>
-    </ValidationProvider>
+            <div class="w-full">
+              <!-- ユーザー名 -->
+              <ValidationProvider
+                name="ユーザー名"
+                rules="required"
+                v-slot="{ errors }"
+              >
+                <div>
+                  <input
+                    type="text"
+                    v-model="userInfo.loginName"
+                    class="w-full bg-gray-200 text-center mt-3 p-2 rounded-lg"
+                  />
+                </div>
+                <span>{{ errors[0] }}</span>
+              </ValidationProvider>
 
-    <ValidationProvider name="メールアドレス" rules="required" v-slot="{errors}">
-      <div><input type="text" v-model="userInfo.email" /></div>
-      <span>{{ errors[0] }}</span>
-    </ValidationProvider>
-
-
-      <button @click="update" :disabled="invalid">更新</button>
-      <button @click="cancel">キャンセル</button>
-  </ValidationObserver>
-
+              <ValidationProvider
+                name="メールアドレス"
+                rules="required"
+                v-slot="{ errors }"
+              >
+                <div>
+                  <input
+                    type="text"
+                    v-model="userInfo.email"
+                    class="w-full bg-gray-200 text-center mt-3 p-2 rounded-lg"
+                  />
+                </div>
+                <span>{{ errors[0] }}</span>
+              </ValidationProvider>
+            </div>
+          </div>
+          <button
+            @click="update"
+            :disabled="invalid"
+            class="w-11/12 bg-yellow-400 text-white m-3 p-3 rounded-md"
+          >
+            更新
+          </button>
+          <button
+            @click="cancel"
+            class="w-11/12 bg-yellow-400 text-white m-3 p-3 rounded-md"
+          >
+            キャンセル
+          </button>
+        </ValidationObserver>
+      </div>
     </template>
-    <button><NuxtLink to="myPage">マイページ</NuxtLink></button>
   </div>
 </template>
 
@@ -55,7 +129,7 @@ extend("required", {
 export default {
   components: {
     ValidationObserver,
-    ValidationProvider,
+    ValidationProvider
   },
   data() {
     return {
@@ -63,16 +137,16 @@ export default {
         user_id: "",
         loginName: "",
         email: "",
-        image: "",
+        image: ""
       },
 
       profileImage: "",
       showImage: "",
-      isEdited: true,
+      isEdited: true
     };
   },
-  created: function () {
-    auth.onAuthStateChanged((user) => {
+  created: function() {
+    auth.onAuthStateChanged(user => {
       if (!user) {
         this.userInfo.loginName = null;
       } else {
@@ -87,7 +161,7 @@ export default {
       storageRef
         .child(this.profileImage)
         .getDownloadURL()
-        .then((url) => {
+        .then(url => {
           this.profileImage = url;
           console.log(user);
           console.log(this.profileImage);
@@ -113,10 +187,10 @@ export default {
 
       const reader = new FileReader();
       reader.readAsDataURL(file);
-      reader.onload = (e) => {
+      reader.onload = e => {
         this.profileImage = e.target.result;
       };
-    },
-  },
+    }
+  }
 };
 </script>

@@ -7,7 +7,7 @@
           <div class=" flex-shrink-0 h-10 w-10">
             <img
               class="h-10 w-10 rounded-full"
-              src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=4&w=256&h=256&q=60"
+              :src="userProfileImage"
               alt=""
             />
           </div>
@@ -40,7 +40,7 @@
       <select
         v-model="teamInfo.selectedTeamId"
         name="teams"
-        class="bg-white w-11/12 p-2 rounded-lg"
+        class="bg-gray-200 w-11/12 p-2 rounded-lg"
       >
         <option>チームを選択してください</option>
         <option v-for="team in teams" :value="team.id" :key="team.id">
@@ -224,6 +224,7 @@
 
 <script>
 import { auth } from "~/plugins/firebase";
+import firebase from "~/plugins/firebase";
 
 import { ValidationObserver } from "vee-validate";
 import { ValidationProvider } from "vee-validate";
@@ -257,6 +258,7 @@ export default {
         image: ""
       },
 
+      userProfileImage: "",
       profileImage: "",
       updatedFile: "",
       showImage: "",
@@ -270,8 +272,20 @@ export default {
       } else {
         this.userInfo.loginName = user.displayName;
         this.userInfo.user_id = user.uid;
+        this.userProfileImage = `userProfileImages/${user.photoURL}`;
+
+      const storageRef = firebase.storage().ref();
+      storageRef
+        .child(this.userProfileImage)
+        .getDownloadURL()
+        .then(url => {
+          this.userProfileImage = url;
+          console.log(user);
+          console.log(this.userProfileImage);
+        });
       }
     });
+
     this.$store.dispatch("init");
   },
   computed: {
