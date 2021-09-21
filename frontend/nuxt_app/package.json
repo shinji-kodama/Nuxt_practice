@@ -19,7 +19,6 @@
     "vuexfire": "^3.0.1"
   },
   "devDependencies": {
-    "@mdi/js": "^6.1.95",
     "@nuxtjs/tailwindcss": "^4.2.1",
     "autoprefixer": "^10.3.1",
     "postcss": "^8.3.6",

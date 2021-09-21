@@ -1,7 +1,7 @@
 <template>
   <div>
     <div v-for="team in teams" :key="team.id"
-      class="h-screen max-w-sm mx-auto overflow-hidden bg-white rounded-lg shadow-lg dark:bg-gray-800"
+      class="h-screen max-w-sm mx-auto overflow-hidden bg-white rounded-lg shadow-lg dark:bg-gray-800 mt-3"
     >
 
       <!-- チームプロフィール画像 -->
