@@ -1,7 +1,7 @@
 <template>
 <div>
     <SideBar :TeamList="teams" />
-    <MainView/>
+    <MainView />
 </div>
 </template>
 

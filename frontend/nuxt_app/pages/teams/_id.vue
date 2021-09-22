@@ -1,9 +1,10 @@
 <template>
   <div>
-    <div v-for="team in teams" :key="team.id"
+    <div
+      v-for="team in teams"
+      :key="team.id"
       class="h-screen max-w-sm mx-auto overflow-hidden bg-white rounded-lg shadow-lg dark:bg-gray-800 mt-3"
     >
-
       <!-- チームプロフィール画像 -->
       <img
         class="object-cover object-center w-full h-56"
@@ -18,20 +19,26 @@
 
         <div class="flex items-center mt-4 text-gray-700 dark:text-gray-200">
           <svg
-            class="w-6 h-6 fill-current"
-            viewBox="0 0 24 24"
-            fill="none"
             xmlns="http://www.w3.org/2000/svg"
+            class="h-6 w-6"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
           >
-            <path d="M14 11H10V13H14V11Z" />
             <path
-              fill-rule="evenodd"
-              clip-rule="evenodd"
-              d="M7 5V4C7 2.89545 7.89539 2 9 2H15C16.1046 2 17 2.89545 17 4V5H20C21.6569 5 23 6.34314 23 8V18C23 19.6569 21.6569 21 20 21H4C2.34314 21 1 19.6569 1 18V8C1 6.34314 2.34314 5 4 5H7ZM9 4H15V5H9V4ZM4 7C3.44775 7 3 7.44769 3 8V14H21V8C21 7.44769 20.5522 7 20 7H4ZM3 18V16H21V18C21 18.5523 20.5522 19 20 19H4C3.44775 19 3 18.5523 3 18Z"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M17.657 18.657A8 8 0 016.343 7.343S7 9 9 10c0-2 .5-5 2.986-7C14 5 16.09 5.777 17.656 7.343A7.975 7.975 0 0120 13a7.975 7.975 0 01-2.343 5.657z"
+            />
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M9.879 16.121A3 3 0 1012.015 11L11 14H9c0 .768.293 1.536.879 2.121z"
             />
           </svg>
-
-          <h1 class="px-2 text-sm">Meraki UI</h1>
+          <h1 class="px-2 text-sm">{{ team.level }}</h1>
         </div>
 
         <div class="flex items-center mt-4 text-gray-700 dark:text-gray-200">
@@ -53,35 +60,26 @@
             />
           </svg>
 
-          <h1 class="px-2 text-sm">California</h1>
-        </div>
-
-        <div class="flex items-center mt-4 text-gray-700 dark:text-gray-200">
-          <svg
-            class="w-6 h-6 fill-current"
-            viewBox="0 0 24 24"
-            fill="none"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <path
-              fill-rule="evenodd"
-              clip-rule="evenodd"
-              d="M3.00977 5.83789C3.00977 5.28561 3.45748 4.83789 4.00977 4.83789H20C20.5523 4.83789 21 5.28561 21 5.83789V17.1621C21 18.2667 20.1046 19.1621 19 19.1621H5C3.89543 19.1621 3 18.2667 3 17.1621V6.16211C3 6.11449 3.00333 6.06765 3.00977 6.0218V5.83789ZM5 8.06165V17.1621H19V8.06199L14.1215 12.9405C12.9499 14.1121 11.0504 14.1121 9.87885 12.9405L5 8.06165ZM6.57232 6.80554H17.428L12.7073 11.5263C12.3168 11.9168 11.6836 11.9168 11.2931 11.5263L6.57232 6.80554Z"
-            />
-          </svg>
-
-          <h1 class="px-2 text-sm">patterson@example.com</h1>
+          <h1 class="px-2 text-sm">{{ team.area }}</h1>
         </div>
       </div>
 
       <!-- 過去にチャットをしたこと合うかでボタンを出し分け -->
       <template v-if="chatLog">
-        <button @click="add(team.user_id, team.id, team.name)" class="w-11/12 bg-yellow-400 text-white m-3 p-3 rounded-md">チャット申請</button>
+        <button
+          @click="add(team.user_id, team.id, team.name, team.image)"
+          class="w-11/12 bg-yellow-400 text-white m-3 p-3 rounded-md"
+        >
+          チャット申請
+        </button>
       </template>
       <template v-else>
-        <nuxt-link to="/chat/chatList"><button class="w-11/12 bg-gray-400 text-white m-3 p-3 rounded-md">チャット申請済み</button></nuxt-link>
+        <nuxt-link to="/chat/chatList"
+          ><button class="w-11/12 bg-gray-400 text-white m-3 p-3 rounded-md">
+            チャット申請済み
+          </button></nuxt-link
+        >
       </template>
-
     </div>
   </div>
 </template>
@@ -93,7 +91,7 @@ export default {
   data() {
     return {
       uid: "",
-      teamId: this.$route.params.id,
+      teamId: this.$route.params.id
     };
   },
   created: function() {
@@ -118,20 +116,23 @@ export default {
     },
     //以前チャットしたことがあるかを判定
     chatLog() {
-      const chatData = this.$store.state.chat.chats.filter(el => el.uid === this.uid);
+      const chatData = this.$store.state.chat.chats.filter(
+        el => el.uid === this.uid
+      );
       return chatData.some(el => el.team_id === this.teamId) ? false : true;
     }
   },
   methods: {
     //チャットルームを作成する
-    add(other_id, team_id, team_name) {
+    add(other_id, team_id, team_name, team_image) {
       this.$store.dispatch("chat/makeChatRoom", {
         uid: this.uid,
         other_id: other_id,
         team_id: team_id,
         team_name: team_name,
+        team_image: team_image,
       });
-    },
+    }
   }
 };
 </script>

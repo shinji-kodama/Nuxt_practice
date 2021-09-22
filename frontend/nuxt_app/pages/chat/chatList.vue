@@ -13,20 +13,22 @@
                 <tr
                   v-for="chat in chats"
                   :key="chat.id"
-                  class="px-6 py-4 whitespace-nowrap"
+                  class="px-6 py-4"
                 >
+
+                  <!-- 左から1番目の要素 -->
                   <td>
                     <nuxt-link :to="'/chat/' + chat.id">
                       <div
                         v-for="user in users"
                         :key="user.id"
-                        class="flex items-center"
+                        class="flex items-center mx-4 my-2"
                       >
                         <!-- ユーザー画像 -->
                         <div class=" flex-shrink-0 h-10 w-10">
                           <img
                             class="h-10 w-10 rounded-full"
-                            src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=4&w=256&h=256&q=60"
+                            :src="chat.team_image"
                             alt=""
                           />
                         </div>
@@ -46,8 +48,8 @@
                     </nuxt-link>
                   </td>
 
-                  <!-- アイコン -->
-                  <td class="px-6 py-4 whitespace-nowrap">
+                  <!-- 左から2番目の要素 -->
+                  <td class="px-6 py-4">
                     <span
                       class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-red-100 text-red-800"
                     >
@@ -66,6 +68,7 @@
 
 <script>
 import { auth } from "~/plugins/firebase";
+import firebase from "~/plugins/firebase";
 
 export default {
   data() {
@@ -73,7 +76,9 @@ export default {
       chatInfo: {
         uid: "",
         other_id: ""
-      }
+      },
+
+      userProfileImage: "",
     };
   },
   created: function() {
@@ -86,6 +91,17 @@ export default {
         this.chatInfo.uid = null;
       } else {
         this.chatInfo.uid = user.uid;
+        this.userProfileImage = `userProfileImages/${user.photoURL}`;
+
+      const storageRef = firebase.storage().ref();
+      storageRef
+        .child(this.userProfileImage)
+        .getDownloadURL()
+        .then(url => {
+          this.userProfileImage = url;
+          console.log(user);
+          console.log(this.userProfileImage);
+        });
       }
     });
   },
@@ -98,7 +114,7 @@ export default {
     //chatsデータの中で自分のuidが含まれるルームだけ表示する
     chats() {
       const chats = this.$store.state.chat.chats.filter(
-        el => el.uid === this.chatInfo.uid
+        el => el.uid === this.chatInfo.uid || el.other_id === this.chatInfo.uid
       );
 
       chats.forEach(el => {

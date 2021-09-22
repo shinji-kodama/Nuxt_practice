@@ -1,99 +1,33 @@
 <template>
   <div>
-    <!-- メイン画面全体の枠 -->
-    <ul class="flex flex-wrap">
+        <!-- 検索されたアイテムを表示 -->
+        <div
+          v-for="team in filterdTeams(getName)"
+          :key="team.id"
+          class="h-screen/5 w-11/12 mx-auto overflow-hidden bg-white rounded-lg shadow-lg"
+        >
+          <NuxtLink :to="'/teams/' + team.id">
+            <h1 class="text-base font-bold text-gray-800 p-2">
+              {{ team.name }}
+            </h1>
+            <div class="flex">
+              <div class="w-1/2">
+                <img :src="team.image" :alt="team.image" />
+              </div>
 
-      <!-- メイン画面カード -->
-      <li
-        v-for="team in filterdTeams(getName)"
-        :key="team.id"
-        class="card-width h-1/2 bg-white m-2 shadow rounded-lg"
-      >
-
-      <!-- 画像 -->
-        <NuxtLink :to="'/teams/' + team.id">
-          <div class="h-2/5 shadow-sm">
-            <img
-              :src="team.image"
-              :alt="team.image"
-              class="h-full w-full object-cover rounded-t-lg"
-            />
-          </div>
-
-          <!-- チーム名 -->
-          <p class="px-1 py-2 overflow-hidden">{{ team.name }}</p>
-
-          <!-- パラメーター -->
-          <div class="hidden relative pt-1">
-            <div class="flex m-2 items-center justify-between">
-              <div>
-                <span class="text-xs font-semibold inline-block py-1 px-2 uppercase rounded-full bg-blue-200">
-                  チームワーク
-                </span>
-              </div>
-              <div class="text-right">
-                <span class="text-xs font-semibold inline-block">
-                  {{ team.teamwork }}%
-                </span>
+              <div class="w-1/2 px-4 md:p-4">
+                <div class="mt-2">
+                  <div class="font-bold">チームレベル</div>
+                  <p class="text-xs">{{ team.level }}</p>
+                </div>
+                <div class="my-4">
+                  <div class="font-bold">エリア</div>
+                  <p class="text-xs">{{ team.area }}</p>
+                </div>
               </div>
             </div>
-            <div
-              class="overflow-hidden h-2 mx-3 mb-4 text-xs flex rounded bg-blue-200"
-            >
-              <div
-                :style="'width:' + team.teamwork + '%'"
-                class="shadow-none flex flex-col text-center whitespace-nowrap text-white justify-center bg-blue-500"
-              ></div>
-            </div>
-            <div class="flex m-2 items-center justify-between">
-              <div>
-                <span
-                  class="text-xs font-semibold inline-block py-1 px-2 uppercase rounded-full bg-red-200"
-                >
-                  技術力
-                </span>
-              </div>
-              <div class="text-right">
-                <span class="text-xs font-semibold inline-block">
-                  {{ team.skill }}%
-                </span>
-              </div>
-            </div>
-            <div
-              class="overflow-hidden h-2 mx-3 mb-4 text-xs flex rounded bg-red-200"
-            >
-              <div
-                :style="'width:' + team.skill + '%'"
-                class="shadow-none flex flex-col text-center whitespace-nowrap text-white justify-center bg-red-500"
-              ></div>
-            </div>
-            <div class="flex m-2 items-center justify-between">
-              <div>
-                <span
-                  class="text-xs font-semibold inline-block py-1 px-2 uppercase rounded-full bg-green-200"
-                >
-                  戦術理解度
-                </span>
-              </div>
-              <div class="text-right">
-                <span class="text-xs font-semibold inline-block">
-                  {{ team.tactics }}%
-                </span>
-              </div>
-            </div>
-            <div
-              class="overflow-hidden h-2 mx-3 mb-4 text-xs flex rounded bg-green-200"
-            >
-              <div
-                :style="'width:' + team.tactics + '%'"
-                class="shadow-none flex flex-col text-center whitespace-nowrap text-white justify-center bg-green-500"
-              ></div>
-            </div>
-          </div>
-        </NuxtLink>
-
-      </li>
-    </ul>
+          </NuxtLink>
+        </div>
   </div>
 </template>
 

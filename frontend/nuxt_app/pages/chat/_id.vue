@@ -3,13 +3,12 @@
     <div
       class="flex flex-col items-center justify-center w-screen min-h-screen bg-gray-100 text-gray-800"
     >
-      <!-- Component Start -->
       <div
         class="relative flex flex-col flex-grow w-full max-w-xl bg-white shadow-xl rounded-lg overflow-hidden overscroll-auto"
       >
         <div
           id="top"
-          class="flex flex-col flex-grow h-0 mb-20 p-4 overflow-auto"
+          class="flex flex-col flex-grow h-0 mb-20 p-7 overflow-auto"
         >
           <!-- テキスト -->
           <div
@@ -20,9 +19,13 @@
             :key="chat.id"
           >
             <div v-if="chat.uid != chatData.uid">
-              <div
-                class="flex-shrink-0 h-10 w-10 rounded-full bg-gray-300"
-              ></div>
+              <div class="flex-shrink-0 h-10 w-10 rounded-full bg-gray-300">
+                <img
+                  class="h-10 w-10 rounded-full"
+                  :src="teamImage"
+                  alt=""
+                />
+              </div>
             </div>
             <div>
               <div
@@ -32,30 +35,54 @@
                   {{ chat.message }}
                 </p>
               </div>
-              <span class="text-xs text-gray-500 leading-none">2 min ago</span>
+
+              <!-- 送信時間表示 -->
+              <!-- チャット入力と同時に表示されるため、toDateの中身がnullになってエラーとなってしまう。 -->
+              <!-- チャット入力後、timestampの値を受け取って時刻表示形式に直せばエラーは収まるはず。 -->
+              <span class="text-xs text-gray-500 leading-none">{{
+                chat.timestamp.toDate().getHours() +
+                  ":" +
+                  chat.timestamp.toDate().getMinutes()
+              }}</span>
             </div>
             <div v-if="chat.uid === chatData.uid">
-              <div
-                class="flex-shrink-0 h-10 w-10 rounded-full bg-gray-300"
-              ></div>
+              <div class="flex-shrink-0 h-10 w-10 rounded-full bg-gray-300">
+                <img
+                  class="h-10 w-10 rounded-full"
+                  :src="userProfileImage"
+                  alt=""
+                />
+              </div>
             </div>
           </div>
         </div>
+        <!-- テキストここまで -->
 
         <!-- 送信フォーム -->
-        <div class="fixed w-full bottom-0 bg-gray-300 p-4">
-          <form v-on:submit.prevent="add">
+        <div class="fixed w-full bottom-0 bg-gray-400 p-4">
+          <div class="flex w-full">
             <input
               type="text"
-              class="flex items-center h-10 w-full rounded px-3 text-sm"
+              class="flex items-center h-10 w-10/12 rounded px-3 text-sm"
               placeholder="Type your message…"
               v-model="chatData.message"
             />
-            <!-- <button>送信</button> -->
-          </form>
+            <button class="flex w-2/12 mt-3" @click="add">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                class="h-5 w-5 text-white mx-auto"
+                viewBox="0 0 20 20"
+                fill="currentColor"
+              >
+                <path
+                  d="M10.894 2.553a1 1 0 00-1.788 0l-7 14a1 1 0 001.169 1.409l5-1.429A1 1 0 009 15.571V11a1 1 0 112 0v4.571a1 1 0 00.725.962l5 1.428a1 1 0 001.17-1.408l-7-14z"
+                />
+              </svg>
+            </button>
+          </div>
         </div>
+        <!-- 送信フォームここまで -->
       </div>
-      <!-- Component End  -->
     </div>
   </div>
 </template>
@@ -68,6 +95,7 @@ const db = firebase.firestore();
 const chatsRef = db.collection("chats");
 
 export default {
+  layout: "chatui",
   data() {
     return {
       // チャット保存用オブジェクト
@@ -80,6 +108,8 @@ export default {
 
       // チャット表示用オブジェクト
       chats: [],
+      userProfileImage: "",
+      teamImage: "",
 
       myMessageShape: "myMessageShape",
       othersMessageShape: "othersMessageShape",
@@ -109,12 +139,26 @@ export default {
         });
       });
 
+      chatsRef
+      .doc(this.$route.params.id).get().then(doc => {
+        this.teamImage = doc.data().team_image;
+      })
+
     //メッセージにuidを含める
     auth.onAuthStateChanged(user => {
       if (!user) {
         this.chatData.uid = null;
       } else {
         this.chatData.uid = user.uid;
+        this.userProfileImage = `userProfileImages/${user.photoURL}`;
+
+        const storageRef = firebase.storage().ref();
+        storageRef
+          .child(this.userProfileImage)
+          .getDownloadURL()
+          .then(url => {
+            this.userProfileImage = url;
+          });
       }
     });
   },
@@ -122,7 +166,6 @@ export default {
     scrollToEnd() {
       this.$nextTick(() => {
         const chatLog = document.getElementById("top");
-        console.log(chatLog);
         if (!chatLog) return;
         chatLog.scrollTop = chatLog.scrollHeight;
       });
@@ -135,7 +178,7 @@ export default {
   },
   updated() {
     this.scrollToEnd();
-  }
+  },
 };
 </script>
 
@@ -146,7 +189,7 @@ export default {
 }
 
 .othersMessageShape {
-  @apply flex w-full mt-2 space-x-3 max-w-xs ml-auto justify-end;
+  @apply flex w-full mt-2 space-x-3 max-w-xs ml-auto;
 }
 
 /* チャットメッセージの背景色、テキスト色 */

@@ -172,6 +172,10 @@ export const getters = {
   //@param: teamName（検索フォームへの入力値）
   //@return: 部分一致した検索結果
   filterdTeams: state => teamName => {
-    return state.teams.filter(el => el.name.indexOf(teamName) > -1);
-  }
+    return state.teams.filter(el => {
+      return el.name.indexOf(teamName) > -1 ||
+      el.level.indexOf(teamName) > -1 ||
+      el.area.indexOf(teamName) > -1
+    });
+  },
 };
