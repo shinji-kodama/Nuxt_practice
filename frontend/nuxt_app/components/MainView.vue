@@ -1,9 +1,10 @@
 <template>
   <div>
-        <!-- 検索されたアイテムを表示 -->
+    <!-- 検索されたアイテムを表示 -->
+    <div v-for="team in filterdTeams(getName)" :key="team.id">
+      <!-- 自分の作成したチームは非表示にする。 -->
+      <div v-if="team.user_id != userInfo.user_id">
         <div
-          v-for="team in filterdTeams(getName)"
-          :key="team.id"
           class="h-screen/5 w-11/12 mx-auto overflow-hidden bg-white rounded-lg shadow-lg"
         >
           <NuxtLink :to="'/teams/' + team.id">
@@ -28,20 +29,36 @@
             </div>
           </NuxtLink>
         </div>
+      </div>
+    </div>
   </div>
 </template>
 
 <script>
+import { auth } from "~/plugins/firebase";
+
 export default {
+  data() {
+    return {
+      userInfo: {
+        user_id: ""
+      }
+    };
+  },
+  created: function() {
+    this.$store.dispatch("init");
+    auth.onAuthStateChanged(user => (this.userInfo.user_id = user.uid));
+  },
   computed: {
     //gettersを呼び出し。
     filterdTeams() {
       return this.$store.getters.filterdTeams;
     },
+
     //storeから検索フォームで入力された値を取得。
     getName() {
-      return this.$store.state.teamName;
-    },
+      return this.$store.state.teamInfo;
+    }
   },
   mounted() {
     //画面上部にローディングバーを表示
@@ -49,32 +66,26 @@ export default {
       this.$nuxt.$loading.start();
       setTimeout(() => this.$nuxt.$loading.finish(), 300);
     });
-  },
+  }
 };
 </script>
 
 <style scoped>
-
-@media screen and ( min-width:1px ){
-
-.card-width{
-  width: 45%;
-}
+@media screen and (min-width: 1px) {
+  .card-width {
+    width: 45%;
+  }
 }
 
-@media screen and ( min-width:768px ){
-
-.card-width{
-  width: 45%;
-}
-}
-
-@media screen and ( min-width:1070px ){
-
-.card-width{
-  width: 31%;
+@media screen and (min-width: 768px) {
+  .card-width {
+    width: 45%;
+  }
 }
 
+@media screen and (min-width: 1070px) {
+  .card-width {
+    width: 31%;
+  }
 }
-
 </style>

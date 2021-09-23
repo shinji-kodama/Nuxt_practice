@@ -1,16 +1,6 @@
 <template>
-<div>
-    <SideBar :TeamList="teams" />
+  <div>
+    <SideBar />
     <MainView />
-</div>
+  </div>
 </template>
-
-<script>
-export default {
-    computed:{
-    teams() {
-      return this.$store.state.teams;
-    },
-    }
-}
-</script>

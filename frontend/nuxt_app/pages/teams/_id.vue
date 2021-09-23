@@ -68,14 +68,14 @@
       <template v-if="chatLog">
         <button
           @click="add(team.user_id, team.id, team.name, team.image)"
-          class="w-11/12 bg-yellow-400 text-white m-3 p-3 rounded-md"
+          class="w-11/12 bg-yellow-400 text-white m-3 p-3 rounded-lg"
         >
           チャット申請
         </button>
       </template>
       <template v-else>
         <nuxt-link to="/chat/chatList"
-          ><button class="w-11/12 bg-gray-400 text-white m-3 p-3 rounded-md">
+          ><button class="w-11/12 bg-gray-400 text-white m-3 p-3 rounded-lg">
             チャット申請済み
           </button></nuxt-link
         >

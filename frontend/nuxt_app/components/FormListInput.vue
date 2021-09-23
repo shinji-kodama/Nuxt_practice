@@ -78,6 +78,7 @@
                       name="level"
                       class="bg-gray-200 mt-1 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
                     >
+                      <option disabled>競技レベルを選択</option>
                       <option>競技志向（ハイレベル）</option>
                       <option>競技志向（シリアス）</option>
                       <option>競技志向（ジェネラル）</option>

@@ -1,4 +1,5 @@
 import { vuexfireMutations } from "vuexfire";
+import { auth } from "~/plugins/firebase";
 import firebase from "~/plugins/firebase";
 import { firestoreAction } from "vuexfire";
 
@@ -10,7 +11,7 @@ export const state = () => ({
 
   //検索フォームに入力された値を格納する
   profileImage: "",
-  teamName: ""
+  teamInfo: ""
 });
 
 export const mutations = {
@@ -18,8 +19,8 @@ export const mutations = {
 
   //検索フォームに入力された値をstateに代入する関数
   selectName(state, name) {
-    state.teamName = name;
-    console.log(state.teamName);
+    state.teamInfo = name;
+    console.log(state.teamInfo);
   }
 };
 
@@ -169,13 +170,13 @@ export const actions = {
 };
 
 export const getters = {
-  //@param: teamName（検索フォームへの入力値）
+  //@param: teamInfo（検索フォームへの入力値）
   //@return: 部分一致した検索結果
-  filterdTeams: state => teamName => {
+  filterdTeams: state => teamInfo => {
     return state.teams.filter(el => {
-      return el.name.indexOf(teamName) > -1 ||
-      el.level.indexOf(teamName) > -1 ||
-      el.area.indexOf(teamName) > -1
+      return el.name.indexOf(teamInfo) > -1 ||
+      el.level.indexOf(teamInfo) > -1 ||
+      el.area.indexOf(teamInfo) > -1
     });
   },
 };

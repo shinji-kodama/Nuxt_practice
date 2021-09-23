@@ -178,6 +178,7 @@
                 name="競技レベル"
                 class="bg-gray-200 w-full mt-2 p-2 rounded-lg"
               >
+                <option disabled>競技レベルを選択</option>
                 <option>競技志向（ハイレベル）</option>
                 <option>競技志向（シリアス）</option>
                 <option>競技志向（ジェネラル）</option>

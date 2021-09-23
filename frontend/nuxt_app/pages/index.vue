@@ -20,19 +20,7 @@
         </div>
 
         <!-- 検索ボックス -->
-        <SideBar :TeamList="teams"  />
-        <div class="flex m-1">
-            <button
-              class="bg-yellow-500 text-white text-sm md:text-2xl m-1 p-1 rounded-lg"
-            >
-              <nuxt-link to="/search">近くのチーム</nuxt-link>
-            </button>
-            <button
-              class="bg-blue-500 text-white text-sm md:text-2xl m-1 p-1 rounded-lg"
-            >
-              <nuxt-link to="/search">レベルの近いチーム</nuxt-link>
-            </button>
-        </div>
+        <SideBar />
       </div>
     </div>
 
@@ -122,45 +110,46 @@
         </div>
       </div>
     </div>
+
   </div>
 </template>
 
 <script>
-import { Portal, PortalTarget } from "portal-vue";
+import { auth } from "~/plugins/firebase";
 
 export default {
   layout: "default",
-  components: {
-    Portal,
-    PortalTarget
-  },
   data() {
     return {
-      viewMode: "card",
-      teamImage: "",
+      userInfo: {
+        user_id: ""
+      },
 
-      show: false
+      teamImage: "",
     };
   },
   created: function() {
     this.$store.dispatch("init");
+    auth.onAuthStateChanged(user => (this.userInfo.user_id = user.uid));
   },
   computed: {
-        teams() {
-      return this.$store.state.teams;
-    },
     // カテゴリー別表示
     filterArea() {
-      return this.$store.state.teams.filter(el => el.area === "渋谷区");
+      return this.$store.state.teams.filter(el => {
+        return el.user_id != this.userInfo.user_id && el.area === "渋谷区";
+      });
     },
 
     // カテゴリー別表示
     filterLevel() {
-      return this.$store.state.teams.filter(
-        el => el.level.indexOf("ハイレベル") > -1
-      );
-    }
-  }
+      return this.$store.state.teams.filter(el => {
+        return (
+          el.user_id != this.userInfo.user_id &&
+          el.level.indexOf("ハイレベル") > -1
+        );
+      });
+    },
+  },
 };
 </script>
 
@@ -181,38 +170,5 @@ export default {
   .card-width {
     width: 31%;
   }
-}
-
-.base {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  display: flex;
-  justify-content: center;
-  margin-top: 1em;
-}
-.overlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background-color: gray;
-  opacity: 0.5;
-}
-.content {
-  background-color: white;
-  position: relative;
-  padding: 1em;
-  border-radius: 10px;
-}
-.v-enter-active,
-.v-leave-active {
-  transition: opacity 0.5s;
-}
-.v-enter,
-.v-leave-to {
-  opacity: 0;
 }
 </style>
